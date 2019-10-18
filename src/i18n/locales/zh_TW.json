@@ -4,5 +4,7 @@
   "Relatives pass": "親戚轉傳",
   "Colleagues pass": "同事轉傳",
   "Friend transfer": "朋友轉傳",
-  "Input by yourself": "自己輸入的"
+  "Input by yourself": "自己輸入的",
+  "Please choose to play %s> %s": "選擇請打 %s> %s", 
+  "No one here is a message from me.": "這裡沒有一篇是我傳的訊息。"
 }

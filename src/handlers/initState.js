@@ -100,7 +100,8 @@ export default async function initState(params) {
       altText: edgesSortedWithSimilarity
         .map(
           ({ node: { text } }, idx) =>
-            `選擇請打 ${idx + 1}> ${ellipsis(text, 20, '')}`
+            i18n.__(`Please choose to play %s> %s`, idx + 1, ellipsis(text, 20, ''))
+
         )
         .concat(hasIdenticalDocs ? [] : ['若以上皆非，請打 0。'])
         .join('\n\n'),
@@ -117,7 +118,7 @@ export default async function initState(params) {
               ? []
               : [
                   {
-                    text: '這裡沒有一篇是我傳的訊息。',
+                    text: i18n.__('No one here is a message from me.'),
                     actions: [createPostbackAction('選擇', 0, issuedAt)],
                   },
                 ]
