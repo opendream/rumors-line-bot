@@ -1,4 +1,8 @@
 {
   "Can not find %s message": "找不到關於「%s」訊息耶 QQ",
-  "Where did you see this message from?": "請問您是從哪裡看到這則訊息呢？"
+  "Where did you see this message from?": "請問您是從哪裡看到這則訊息呢？",
+  "Relatives pass": "親戚轉傳",
+  "Colleagues pass": "同事轉傳",
+  "Friend transfer": "朋友轉傳",
+  "Input by yourself": "自己輸入的"
 }
