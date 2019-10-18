@@ -7,6 +7,7 @@ import {
   ARTICLE_SOURCES,
 } from './utils';
 import ga from '../ga';
+import i18n from '../i18n';
 
 const SIMILARITY_THRESHOLD = 0.95;
 
@@ -180,7 +181,7 @@ export default async function initState(params) {
           altText,
           template: {
             type: 'buttons',
-            text: `找不到關於「${articleSummary}」訊息耶 QQ\n請問您是從哪裡看到這則訊息呢？`,
+            text: `${i18n.__('Can not find %s message', articleSummary)}\n${i18n.__('Where did you see this message from?')}`,
             actions: data.articleSources.map((option, index) =>
               createPostbackAction(option, index + 1, issuedAt)
             ),

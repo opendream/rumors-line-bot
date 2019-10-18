@@ -225,7 +225,7 @@ router.post('/callback', ctx => {
 
   ctx.request.body.events.forEach(
     async ({ type, replyToken, source, ...otherFields }) => {
-      let { userId } = source;
+      let { userId } = source;      
       if (source.type === 'user') {
         singleUserHandler(ctx.request, type, replyToken, userId, otherFields);
       } else if (source.type === 'group') {

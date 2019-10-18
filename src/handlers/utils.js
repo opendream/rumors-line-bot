@@ -1,6 +1,8 @@
 import GraphemeSplitter from 'grapheme-splitter';
 const splitter = new GraphemeSplitter();
 
+import i18n from '../i18n';
+
 export function createPostbackAction(label, input, issuedAt) {
   return {
     type: 'postback',
@@ -242,8 +244,8 @@ export function createArticleShareReply(articleUrl, reason) {
  * possible sources of incoming articles
  */
 export const ARTICLE_SOURCES = [
-  '親戚轉傳',
-  '同事轉傳',
-  '朋友轉傳',
-  '自己輸入的',
+  i18n.__("Relatives pass"),
+  i18n.__("Colleagues pass"),
+  i18n.__("Friend transfer"),
+  i18n.__("Input by yourself"),
 ];
