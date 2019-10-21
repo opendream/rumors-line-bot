@@ -6,6 +6,7 @@ import {
   ellipsis,
   DOWNVOTE_PREFIX,
 } from './utils';
+import i18n from '../i18n';
 
 export default async function askingReplyFeedback(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -61,36 +62,36 @@ export default async function askingReplyFeedback(params) {
     });
 
     const articleUrl = getArticleURL(data.selectedArticleId);
-    let sharedText = `網路上有人說「${ellipsis(
+    let sharedText = `${i18n.__("Someone on the internet said")}「${ellipsis(
       data.selectedArticleText,
       15
     )}」 ${createTypeWords(
       GetReply.type
-    )}喔！\n\n請至 ${articleUrl} 看看鄉親們針對這則訊息的回應、理由，與相關的出處唷！`;
+    )}${i18n.__("Oh!")} \n\n${i18n.__("Please go to %s to see the responses, reasons, and related sources of the folks!", articleUrl)}`;
 
     replies = [
       {
         type: 'text',
         text:
           feedbackCount > 1
-            ? `感謝您與其他 ${feedbackCount - 1} 人的回饋。`
-            : '感謝您的回饋，您是第一個評論這個回應的人 :)',
+            ? `${i18n.__("Thank you for your feedback with other %s people.", feedbackCount - 1)}`
+            : i18n.__(`Thank you for your feedback, you are the first to comment on this response :)`),
       },
       {
         type: 'template',
-        altText: `📲 別忘了把上面的回應轉傳回您的聊天室，給其他人也看看！\n💁 若您認為自己能回應得更好，歡迎到 ${articleUrl} 提交新的回應唷！`,
+        altText: `📲 ${i18n.__("Don't forget to pass the above response back to your chat room and show it to others!")}\n💁 ${i18n.__("If you think you can respond better, welcome to %s to submit a new response!", articleUrl)}`,
         template: {
           type: 'confirm',
-          text: `📲 別忘了把上面的回應轉傳回您的聊天室，給其他人也看看！\n💁 若您認為自己能回應得更好，歡迎提交新的回應唷！`,
+          text: `📲 ${i18n.__("Don't forget to pass the above response back to your chat room and show it to others!")}\n💁 ${i18n.__("If you think you can respond better, please feel free to submit a new response!")}`,
           actions: [
             {
               type: 'uri',
-              label: '分享給朋友',
+              label: i18n.__(`Share with friends`),
               uri: `line://msg/text/?${encodeURI(sharedText)}`,
             },
             {
               type: 'uri',
-              label: '提交新回應',
+              label: i18n.__(`Submit a new response`),
               uri: getArticleURL(data.selectedArticleId),
             },
           ],
@@ -137,14 +138,14 @@ export default async function askingReplyFeedback(params) {
         type: 'text',
         text:
           feedbackCount > 1
-            ? `感謝您與其他 ${feedbackCount - 1} 人的回饋。`
-            : '感謝您的回饋，您是第一個評論這個回應的人 :)',
+            ? `${i18n.__("Thank you for your feedback with other %s people.", feedbackCount - 1)}`
+            : i18n.__(`Thank you for your feedback, you are the first to comment on this response :)`),
       },
       {
         type: 'text',
-        text: `💁 若您認為自己能回應得更好，歡迎到 ${getArticleURL(
+        text: `💁 ${i18n.__("If you think you can respond better, welcome to %s to submit a new response!", getArticleURL(
           data.selectedArticleId
-        )} 提交新的回應唷！`,
+        ) )}` ,
       },
     ];
 
@@ -155,7 +156,7 @@ export default async function askingReplyFeedback(params) {
       {
         type: 'text',
         text:
-          '請點擊上面的「是」、「否」對回應表達意見，或改轉傳其他訊息給我查詢。',
+          i18n.__(`Please click "Yes" or "No" above to express your opinion on the response, or change the other information to me.`),
       },
     ];
 

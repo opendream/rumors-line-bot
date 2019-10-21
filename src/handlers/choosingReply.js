@@ -9,6 +9,7 @@ import {
   DOWNVOTE_PREFIX,
 } from './utils';
 import ga from '../ga';
+import i18n from '../i18n';
 
 export default async function choosingReply(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -25,7 +26,7 @@ export default async function choosingReply(params) {
     replies = [
       {
         type: 'text',
-        text: `請輸入 1～${data.foundReplyIds.length} 的數字，來選擇回應。`,
+        text: `${i18n.__("Please enter 1~")}${data.foundReplyIds.length} ${i18n.__("number to choose to respond.")}`,
       },
     ];
 
@@ -49,7 +50,7 @@ export default async function choosingReply(params) {
     replies = [
       {
         type: 'text',
-        text: `💡 網路上有人這樣回應這則訊息：`,
+        text: `💡 ${i18n.__("Someone on the Internet responded to this message like this:")}`,
       },
       {
         type: 'text',
@@ -61,26 +62,26 @@ export default async function choosingReply(params) {
       },
       {
         type: 'text',
-        text: `⬆️ 綜合以上，回應者認為它${createTypeWords(
+        text: `⬆️ ${i18n.__("In summary, the respondent believes that it")}${createTypeWords(
           GetReply.type
-        )}。\n\n💁 以上資訊由好心人提供。請斟酌出處與理由思考判斷。\n${
+        )}。\n\n💁 ${i18n.__("The above information is provided by good people. Please consider the source and reason to think about it.")} \n${
           data.foundReplyIds.length > 1
-            ? `🗣️ 這則訊息有很多不同回應，建議到這裡一次讀完再下判斷：\n${articleUrl}\n`
+            ? `🗣️ ${"There are many different responses to this message. It is recommended to go to this place once and then judge:"} \n${articleUrl}\n`
             : ''
-        }\n⁉️ 如果你對這則訊息有不同看法，歡迎到下面這裡寫入新的回應：\n${articleUrl}`,
+        }\n⁉️ ${i18n.__("If you have a different opinion on this message, please feel free to write a new response here:")} \n${articleUrl}`,
       },
       {
         type: 'template',
         altText:
-          '請問上面回應是否有幫助？\n「是」請輸入「y」，「否」請至手機上回應',
+          i18n.__(`Is the above response helpful?`) + '\n' + i18n.__(`\"Yes\", please enter \"y\", \"No\", please respond to the phone.`),
         template: {
           type: 'confirm',
-          text: '請問上面回應是否有幫助？',
+          text: i18n.__(`Is the above response helpful?`),
           actions: [
-            createPostbackAction('是', 'y', issuedAt),
+            createPostbackAction(i18n.__(`Yes`), 'y', issuedAt),
             {
               type: 'uri',
-              label: '否',
+              label: i18n.__(`No`),
               uri: getLIFFURL(
                 'ASKING_REPLY_FEEDBACK',
                 GetReply.text,

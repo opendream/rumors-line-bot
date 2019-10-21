@@ -7,6 +7,7 @@ import {
   ARTICLE_SOURCES,
 } from './utils';
 import ga from '../ga';
+
 import i18n from '../i18n';
 
 const SIMILARITY_THRESHOLD = 0.95;

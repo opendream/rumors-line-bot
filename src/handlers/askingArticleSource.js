@@ -5,6 +5,7 @@ import {
   ellipsis,
 } from './utils';
 import ga from '../ga';
+import i18n from '../i18n';
 
 export default async function askingArticleSource(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -14,7 +15,7 @@ export default async function askingArticleSource(params) {
     replies = [
       {
         type: 'text',
-        text: `請輸入 1～${data.articleSources.length} 的數字，選擇訊息來源。`,
+        text: `${i18n.__("Please enter 1~")}${data.articleSources.length} ${i18n.__("number, choose the source of the message.")}`,
       },
     ];
     state = 'ASKING_ARTICLE_SOURCE';
@@ -24,16 +25,16 @@ export default async function askingArticleSource(params) {
   const visitor = ga(userId, state, data.selectedArticleText);
   // Track the source of the new message.
   visitor.event({ ec: 'Article', ea: 'ProvidingSource', el: source });
-  if (source === '自己輸入的') {
+  if (source === i18n.__(`Input by yourself`)) {
     replies = [
       {
         type: 'template',
         altText:
-          '好的，建議您把訊息轉傳給 MyGoPen 或蘭姆酒吐司，兩個都是很專業的謠言破解網站，而且有 💁 專人為您解答喔！',
+          i18n.__(`Ok, I suggest you pass the message to MyGoPen or rum toast. Both are very professional rumors and you have a 💁 someone to answer your questions!`),
         template: {
           type: 'confirm',
           text:
-            '好的，建議您把訊息轉傳給 MyGoPen 或蘭姆酒吐司，兩個都是很專業的謠言破解網站，而且有 💁 專人為您解答喔！',
+            i18n.__(`Ok, I suggest you pass the message to MyGoPen or rum toast. Both are very professional rumors and you have a 💁 someone to answer your questions!`),
           actions: [
             {
               type: 'uri',
@@ -42,7 +43,7 @@ export default async function askingArticleSource(params) {
             },
             {
               type: 'uri',
-              label: '蘭姆酒吐司',
+              label: i18n.__(`Rum toast`),
               uri: `line://ti/p/1q14ZZ8yjb`,
             },
           ],
@@ -58,11 +59,11 @@ export default async function askingArticleSource(params) {
   ) {
     // articles that are already reported
     const altText =
-      '【跟編輯說您的疑惑】\n' +
-      '好的，謝謝您。若您覺得這是一則謠言，請指出您有疑惑之處，說服編輯這是一份應該被闢謠的訊息。\n' +
+      i18n.__(`[Talk to the editor about your doubts]`) + ' \n' +
+      i18n.__(`Ok, thank you. If you think this is a rumor, please point out that you have doubts and persuade the editor that this is a message that should be blamed.`) + ' \n' +
       '\n' +
-      '請按左下角「⌨️」鈕，把「為何您會覺得這是一則謠言」的理由傳給我們，幫助闢謠編輯釐清您的疑惑；\n' +
-      '若想跳過，請輸入「n」。';
+      i18n.__(`Please click on the \"⌨️\" button in the lower left corner to send us the reason why \"what you think is a rumor\" to help the editors to clarify your doubts;`) + '\n' +
+      i18n.__(`If you want to skip, please enter \"n\".`);
 
     replies = [
       {
@@ -76,7 +77,7 @@ export default async function askingArticleSource(params) {
             contents: [
               {
                 type: 'text',
-                text: '跟編輯說您的疑惑',
+                text: i18n.__(`Tell your doubts with the editor`),
                 weight: 'bold',
                 color: '#009900',
                 size: 'sm',
@@ -91,7 +92,7 @@ export default async function askingArticleSource(params) {
               {
                 type: 'text',
                 text:
-                  '好的，謝謝您。若您希望闢謠的好心人可以關注這一篇，請按「我也想知道」告訴大家你的想法。',
+                  i18n.__(`Ok, thank you. If you want to be ignorant, you can follow this one, please click \"I want to know\" to tell everyone your thoughts.`),
                 wrap: true,
               },
             ],
@@ -105,7 +106,7 @@ export default async function askingArticleSource(params) {
                 style: 'primary',
                 action: {
                   type: 'uri',
-                  label: '🙋 我也想知道',
+                  label: '🙋 '+ i18n.__(`I want to know`),
                   uri: getLIFFURL(
                     'ASKING_REPLY_REQUEST_REASON',
                     data.searchedText,
@@ -126,7 +127,7 @@ export default async function askingArticleSource(params) {
     replies = [
       {
         type: 'text',
-        text: '好的，謝謝您。',
+        text: i18n.__(`Ok, thank you.`),
       },
     ].concat(
       createAskArticleSubmissionReply(

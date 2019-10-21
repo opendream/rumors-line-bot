@@ -1,5 +1,6 @@
 import gql from '../gql';
 import { getArticleURL, REASON_PREFIX, createArticleShareReply } from './utils';
+import i18n from '../i18n';
 
 export default async function askingArticleSubmission(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -9,7 +10,7 @@ export default async function askingArticleSubmission(params) {
     replies = [
       {
         type: 'text',
-        text: '請點擊上面的「我也想知道」，或放棄這則，改轉傳其他訊息。',
+        text: i18n.__(`Please click on \"I want to know\" above, or give up this and change other messages.`),
       },
     ];
   } else {
@@ -30,9 +31,9 @@ export default async function askingArticleSubmission(params) {
     replies = [
       {
         type: 'text',
-        text: `已經將您的需求記錄下來了，共有 ${
+        text: `${i18n.__("Your needs have been recorded, a total of")} ${
           CreateReplyRequest.replyRequestCount
-        } 人跟您一樣渴望看到針對這篇訊息的回應。若有最新回應，會寫在這個地方：${articleUrl}`,
+        } ${i18n.__("People are as eager to see a response to this message as you are. If there is an up-to-date response, it will be written in this place:")} ${articleUrl}`,
       },
       createArticleShareReply(articleUrl, reason),
     ];

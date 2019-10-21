@@ -1,7 +1,7 @@
 import GraphemeSplitter from 'grapheme-splitter';
-const splitter = new GraphemeSplitter();
-
 import i18n from '../i18n';
+
+const splitter = new GraphemeSplitter();
 
 export function createPostbackAction(label, input, issuedAt) {
   return {
@@ -97,7 +97,7 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
     '\n' +
     i18n.__(`Although you will not receive the verification results immediately, you can help those who also receive this message in the future.`) + ' \n' +
     '\n' +
-    i18n.__(`Please complete the operation on your smartphone.`);
+    i18n.__(`Please complete the operation on your 📱 smartphone.`);
 
   return [
     {

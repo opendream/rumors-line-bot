@@ -1,10 +1,12 @@
+import i18n from '../i18n';
+
 export default function defaultState(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
 
   replies = [
     {
       type: 'text',
-      text: '我們看不懂 QQ\n大俠請重新來過。',
+      text: i18n.__(`We don't understand QQ`) + '\n' + i18n.__(`Heroes, please come back.`),
     },
   ];
   state = '__INIT__';

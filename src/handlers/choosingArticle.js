@@ -9,6 +9,7 @@ import {
   ARTICLE_SOURCES,
 } from './utils';
 import ga from '../ga';
+import i18n from '../i18n';
 
 /**
  * 第2句 (template message)：按照時間排序「不在查證範圍」之外的回應，每則回應第一行是
@@ -35,7 +36,7 @@ function createAltText(articleReplies) {
   return articleReplies
     .slice(0, 10)
     .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }, idx) => {
-      const prefix = `閱讀請傳 ${idx + 1}> ${createTypeWords(
+      const prefix = `${i18n.__("Read please pass")} ${idx + 1}> ${createTypeWords(
         reply.type
       )}\n${createFeedbackWords(positiveFeedbackCount, negativeFeedbackCount)}`;
       const content = ellipsis(reply.text, eachLimit - prefix.length, '');
@@ -60,23 +61,23 @@ export default async function choosingArticle(params) {
       {
         type: 'text',
         text:
-          '剛才您傳的訊息資訊量太少，編輯無從查證。\n' +
-          '查證範圍請參考📖使用手冊 http://bit.ly/cofacts-line-users',
+          i18n.__(`The amount of information you just sent was too small, and the editor could not verify it.`) + ' \n' +
+          + i18n.__(`Please refer to the 📖 manual for the scope of verification.`) + ' http://bit.ly/cofacts-line-users',
       },
     ];
     state = '__INIT__';
   } else if (doesNotContainMyArticle) {
     data.articleSources = ARTICLE_SOURCES;
     const altText =
-      '啊，看來您的訊息還沒有收錄到我們的資料庫裡。\n' +
+      i18n.__(`Ah, it seems that your message has not been included in our database.`) + ' \n' +
       '\n' +
-      '請問您是從哪裡看到這則訊息呢？\n' +
+      i18n.__(`Where did you see this message from?`) + ' \n' +
       '\n' +
       data.articleSources
-        .map((option, index) => `${option} > 請傳 ${index + 1}\n`)
+        .map((option, index) => `${option} > ${i18n.__(`Please pass`)} ${index + 1}\n`)
         .join('') +
       '\n' +
-      '請按左下角「⌨️」鈕輸入選項編號。';
+      i18n.__(`pleasePressButton`);
 
     replies = [
       {
@@ -85,7 +86,7 @@ export default async function choosingArticle(params) {
         template: {
           type: 'buttons',
           text:
-            '啊，看來您的訊息還沒有收錄到我們的資料庫裡。\n請問您是從哪裡看到這則訊息呢？',
+            i18n.__(`Ah, it seems that your message has not been included in our database.`) + '\n' + i18n.__(`whereSeeMessage`),
           actions: data.articleSources.map((option, index) =>
             createPostbackAction(option, index + 1, issuedAt)
           ),
@@ -98,7 +99,7 @@ export default async function choosingArticle(params) {
     replies = [
       {
         type: 'text',
-        text: `請輸入 1～${data.foundArticleIds.length} 的數字，來選擇訊息。`,
+        text: `${i18n.__("Please enter 1~")}${data.foundArticleIds.length} ${i18n.__("number, to choose the message.")}`,
       },
     ];
 
@@ -153,11 +154,11 @@ export default async function choosingArticle(params) {
 
     const articleReplies = reorderArticleReplies(GetArticle.articleReplies);
     const summary =
-      '這個訊息有：\n' +
-      `${count.RUMOR || 0} 則回應標成 ❌ 含有不實訊息\n` +
-      `${count.NOT_RUMOR || 0} 則回應標成 ⭕ 含有真實訊息\n` +
-      `${count.OPINIONATED || 0} 則回應標成 💬 含有個人意見\n` +
-      `${count.NOT_ARTICLE || 0} 則回應標成 ⚠️️ 不在查證範圍\n`;
+      i18n.__(`This message has:`) + ' \n' +
+      `${count.RUMOR || 0} ${i18n.__("Then the response is marked")} ❌ ${i18n.__("contains false information")}\n` +
+      `${count.NOT_RUMOR || 0} ${i18n.__("Then the response is marked")} ⭕ ${i18n.__("contains real information")}\n` +
+      `${count.OPINIONATED || 0} ${i18n.__("Then the response is marked")} 💬 ${i18n.__("contains personal opinions")}\n` +
+      `${count.NOT_ARTICLE || 0} ${i18n.__("Then the response is marked")} ⚠️️ ${i18n.__(`Not in the scope of verification`)}\n`;
 
     replies = [
       {
@@ -209,7 +210,7 @@ export default async function choosingArticle(params) {
                   '\n' +
                   ellipsis(reply.text, 80, ''),
                 actions: [
-                  createPostbackAction('閱讀此回應', idx + 1, issuedAt),
+                  createPostbackAction(i18n.__(`Read this response`), idx + 1, issuedAt),
                 ],
               })
             ),
@@ -219,7 +220,7 @@ export default async function choosingArticle(params) {
       if (articleReplies.length > 10) {
         replies.push({
           type: 'text',
-          text: `更多回應請到：${getArticleURL(selectedArticleId)}`,
+          text: `${i18n.__(`For more responses please go to:`)} ${getArticleURL(selectedArticleId)}`,
         });
       }
     } else {
@@ -234,15 +235,15 @@ export default async function choosingArticle(params) {
 
       data.articleSources = ARTICLE_SOURCES;
       const altText =
-        '抱歉這篇訊息還沒有人回應過唷！\n' +
+        i18n.__(`Sorry, no one has responded to this message yet!`) + ' \n' +
         '\n' +
-        '請問您是從哪裡看到這則訊息呢？\n' +
+        i18n.__(`Where did you see this message from?`) + ' \n' +
         '\n' +
         data.articleSources
           .map((option, index) => `${option} > 請傳 ${index + 1}\n`)
           .join('') +
         '\n' +
-        '請按左下角「⌨️」鈕輸入選項編號。';
+        i18n.__(`pleasePressButton`);
 
       replies = [
         {
@@ -251,7 +252,7 @@ export default async function choosingArticle(params) {
           template: {
             type: 'buttons',
             text:
-              '抱歉這篇訊息還沒有人回應過唷！\n請問您是從哪裡看到這則訊息呢？',
+              i18n.__(`Sorry, no one has responded to this message yet!`) + '\n' + i18n.__(`whereSeeMessage`),
             actions: data.articleSources.map((option, index) =>
               createPostbackAction(option, index + 1, issuedAt)
             ),
