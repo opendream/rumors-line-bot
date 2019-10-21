@@ -1,6 +1,23 @@
 {
-	"Colleagues pass": "Colleagues pass",
-	"Friend transfer": "Friend transfer",
-	"Input by yourself": "Input by yourself",
-	"Relatives pass": "Relatives pass"
+  "Can not find %s message": "Can't find out about「%s」message QQ.",
+  "Where did you see this message from?": "Where did you see this message from?",
+  "Relatives pass": "Relatives pass",
+  "Colleagues pass": "Colleagues pass",
+  "Friend transfer": "Friend transfer",
+  "Input by yourself": "Input by yourself",
+  "Please choose to play %s> %s": "Please choose to play %s> %s", 
+  "No one here is a message from me.": "No one here is a message from me.",
+  "pleaseCall": "If none of the above, please call %s.",
+  "similarity": "Similarity",
+  "chooseThis": "Choose this",
+  "select": "select",
+  "queryResponse": "Help you to query「%s」related responses.",
+  "messageYouJustSent": "Which of the following articles is the message you just sent?",
+  "informTooSmall": "The information you have sent is too small to search the database for you!",
+  "referManual": "For correct use, please refer to the 📖 manual",
+  "cantFindOut": "Can't find out about「%s」message QQ\n",
+  "whereSeeMessage": "Where did you see this message from?\n",
+  "pleasePass": "Please pass",
+  "pleasePressButton": "Please press the \"⌨️\" button in the lower left corner to enter the option number."
 }
+	

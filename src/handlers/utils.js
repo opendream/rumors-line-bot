@@ -20,10 +20,10 @@ export function createPostbackAction(label, input, issuedAt) {
  * @return {string} Description of feedback counts
  */
 export function createFeedbackWords(positive, negative) {
-  if (positive + negative === 0) return '[還沒有人針對此回應評價]';
+  if (positive + negative === 0) return i18n.__(`[No one has yet commented on this response]`);
   let result = '';
-  if (positive) result += `有 ${positive} 人覺得此回應有幫助\n`;
-  if (negative) result += `有 ${negative} 人覺得此回應沒幫助\n`;
+  if (positive) result += i18n.__(`There are %s people think this response is helpful`, positive) + '\n';
+  if (negative) result += i18n.__(`There are %s people think this response didn't help`, negative) + '\n';
   return `[${result.trim()}]`;
 }
 
@@ -40,15 +40,15 @@ export function createFlexMessageText(text = '') {
 export function createTypeWords(type) {
   switch (type) {
     case 'RUMOR':
-      return '含有不實訊息';
+      return i18n.__(`Contains false information`);
     case 'NOT_RUMOR':
-      return '含有真實訊息';
+      return i18n.__(`Contains real information`);
     case 'OPINIONATED':
-      return '含有個人意見';
+      return i18n.__(`Contains personal opinions`);
     case 'NOT_ARTICLE':
-      return '不在查證範圍';
+      return i18n.__(`Not in the scope of verification`);
   }
-  return '回應的狀態未定義！';
+  return i18n.__(`The status of the response is undefined!`);
 }
 
 /**
@@ -58,17 +58,17 @@ export function createTypeWords(type) {
  * @returns {string} The reference message to send
  */
 export function createReferenceWords({ reference, type }) {
-  const prompt = type === 'OPINIONATED' ? '不同觀點請見' : '出處';
+  const prompt = type === 'OPINIONATED' ? i18n.__(`See different views`) : i18n.__(`Source`);
 
   if (reference) return `${prompt}：${reference}`;
-  return `\uDBC0\uDC85 ⚠️️ 此回應沒有${prompt}，請自行斟酌回應之可信度。⚠️️  \uDBC0\uDC85`;
+  return '\uDBC0\uDC85 ⚠️️ ' + i18n.__(`There is no %s for this response, please consider the credibility of the response.`, prompt) + '⚠️️  \uDBC0\uDC85';
 }
 
 /**
  * prefilled text for reasons
  */
-export const REASON_PREFIX = '💁 我的理由是：\n';
-export const DOWNVOTE_PREFIX = '💡 我覺得回應沒有幫助，可以這樣改進：\n';
+export const REASON_PREFIX = '💁 ' + i18n.__(`My reason is:`) + '\n';
+export const DOWNVOTE_PREFIX = '💡 ' + i18n.__('I feel that the response did not help and can be improved like this:') + ' \n';
 
 /**
  * @param {string} state The current state
@@ -92,12 +92,12 @@ export function getLIFFURL(state, text, prefix, issuedAt) {
  */
 export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
   const altText =
-    '【送出訊息到公開資料庫？】\n' +
-    '若這是「轉傳訊息」，而且您覺得這很可能是一則「謠言」，請將這則訊息送進公開資料庫建檔，讓好心人查證與回覆。\n' +
+    '【' + i18n.__(`Send a message to the public database?`) + '】\n' +
+    i18n.__(`If this is a \"transfer message\" and you feel that this is likely to be a \"rumor\", please send this message to the public database for documentation and acknowledgment.`) + '\n' +
     '\n' +
-    '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。\n' +
+    i18n.__(`Although you will not receive the verification results immediately, you can help those who also receive this message in the future.`) + ' \n' +
     '\n' +
-    '請在 📱 智慧型手機上完成操作。';
+    i18n.__(`Please complete the operation on your smartphone.`);
 
   return [
     {
@@ -111,7 +111,7 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
           contents: [
             {
               type: 'text',
-              text: '🥇 成為全球首位回報此訊息的人',
+              text: '🥇 ' + i18n.__(`Be the first person in the world to return this message`),
               weight: 'bold',
               color: '#009900',
             },
@@ -125,19 +125,19 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
             {
               type: 'text',
               text:
-                '目前資料庫裡沒有您傳的訊息。若這是「轉傳訊息」，而且您覺得它很可能是一則「謠言」，',
+                i18n.__(`There is currently no message in your database. If this is a \"transfer message\" and you think it is likely to be a \"rumor\", `),
               wrap: true,
             },
             {
               type: 'text',
-              text: '請按「🆕 送進資料庫」，公開這則訊息、讓好心人查證與回覆。',
+              text: i18n.__(`Please click \"🆕 to enter the database\" to open this message and let the good people check and reply.`),
               color: '#009900',
               wrap: true,
             },
             {
               type: 'text',
               text:
-                '雖然您不會立刻收到查證結果，但可以幫助到未來同樣收到這份訊息的人。',
+                i18n.__(`Although you will not receive the verification results immediately, you can help those who also receive this message in the future.`),
               wrap: true,
             },
           ],
@@ -151,7 +151,7 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
               style: 'primary',
               action: {
                 type: 'uri',
-                label: '🆕 送進資料庫',
+                label: '🆕 ' + i18n.__(`Send to the database`),
                 uri: getLIFFURL(state, text, prefix, issuedAt),
               },
             },
@@ -208,34 +208,34 @@ export function createArticleShareReply(articleUrl, reason) {
   return {
     type: 'template',
     altText:
-      '遠親不如近鄰🌟問問親友總沒錯。把訊息分享給朋友們，說不定有人能幫你解惑！',
+      i18n.__(`Far away relatives are not as good as neighbors.`) + '🌟' + i18n.__(`Asking relatives and friends is always right. Share the message to your friends, maybe someone can help you!`),
     template: {
       type: 'buttons',
       actions: [
         {
           type: 'uri',
-          label: 'LINE 群組',
+          label: 'LINE ' + i18n.__(`Group`),
           uri: `line://msg/text/?${encodeURIComponent(
-            `我收到這則訊息的想法是：\n${ellipsis(
+            `${i18n.__("The idea that I received this message is")} ：\n${ellipsis(
               reason,
               70
-            )}\n\n請幫我看看這是真的還是假的：${articleUrl}`
+            )}\n\n ${i18n.__("Please help me see if this is true or not")} ：${articleUrl}`
           )}`,
         },
         {
           type: 'uri',
-          label: '臉書大神',
+          label: i18n.__(`Facebook`),
           uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=${
             process.env.FACEBOOK_APP_ID
           }&display=popup&quote=${encodeURIComponent(
             ellipsis(reason, 80)
           )}&hashtag=${encodeURIComponent(
-            '#Cofacts求解惑'
+            i18n.__("#CofactsSolve")
           )}&href=${encodeURIComponent(articleUrl)}`,
         },
       ],
-      title: '遠親不如近鄰🌟問問親友總沒錯',
-      text: '說不定你的朋友裡，就有能替你解惑的人唷！\n你想要 Call-out 誰呢？',
+      title: i18n.__(`Far away relatives are not as good as neighbors.`) + '🌟' + i18n.__(`It's always right to ask friends and relatives.`),
+      text: i18n.__(`Maybe there are people in your friends who can solve your problems!`) + '\n' + i18n.__(`Who do you want Call-out?`),
     },
   };
 }

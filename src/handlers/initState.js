@@ -166,9 +166,9 @@ export default async function initState(params) {
 
       data.articleSources = ARTICLE_SOURCES;
       const altText =
-        i18n.__(`cantFindOut`, articleSummary) +
+        i18n.__(`cantFindOut`, articleSummary) + '\n' +
         '\n' +
-        i18n.__(`whereSeeMessage`) +
+        i18n.__(`whereSeeMessage`) + '\n' +
         '\n' +
         data.articleSources
           .map((option, index) => `${option} > ${i18n.__("pleasePass")} ${index + 1}\n`)
