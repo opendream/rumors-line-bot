@@ -218,7 +218,7 @@ export function createArticleShareReply(articleUrl, reason) {
           uri: `line://msg/text/?${encodeURIComponent(
             `${i18n.__("The idea that I received this message is")} ：\n${ellipsis(
               reason,
-              70
+              60
             )}\n\n ${i18n.__("Please help me see if this is true or not")} ：${articleUrl}`
           )}`,
         },
@@ -228,7 +228,7 @@ export function createArticleShareReply(articleUrl, reason) {
           uri: `https://www.facebook.com/dialog/share?openExternalBrowser=1&app_id=${
             process.env.FACEBOOK_APP_ID
           }&display=popup&quote=${encodeURIComponent(
-            ellipsis(reason, 80)
+            ellipsis(reason, 70)
           )}&hashtag=${encodeURIComponent(
             i18n.__("#CofactsSolve")
           )}&href=${encodeURIComponent(articleUrl)}`,
