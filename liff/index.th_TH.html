@@ -60,9 +60,9 @@
   <form class="form" id="form">
     <p id="prompt"></p>
     <label for="reason" id="reason-label"></label>
-    <textarea class="reason" name="reason" placeholder="請在這裡輸入文字"></textarea>
+    <textarea class="reason" name="reason" placeholder="กรุณาใส่ข้อความ"></textarea>
     <div class="buttons">
-      <button class="submit" type="submit" id="submit-button">อย่าลืมส่ง</button>
+      <button class="submit" type="submit" id="submit-button">ยืนยันการส่ง</button>
     </div>
   </form>
   <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
@@ -81,21 +81,21 @@
       const $textarea = document.querySelector('.reason');
       switch(state){
         case 'ASKING_ARTICLE_SUBMISSION_REASON':
-          $prompt.innerText = `คุณกำลังจะส่ง "${text}" ไปยังฐานข้อมูลสาธารณะ เพื่อช่วยในการตรวจสอบโปรดบอกบรรณาธิการแก้ไข:`;
+          $prompt.innerText = `คุณกำลังจะส่ง 「${text}」 ไปยังฐานข้อมูลสาธารณะ โปรดแจ้งเบาะแสให้แก่บรรณาธิการเพื่อช่วยในการตรวจสอบ:`;
           $reasonLabel.innerText = 'ทำไมคุณถึงคิดว่านี่เป็นข่าวลือ?';
-          $textarea.placeholder = 'ตัวอย่าง: ฉันใช้คำสำคัญ OO เพื่อค้นหา Facebook และพบว่า⋯⋯ / ฉันพบคำสั่งที่แตกต่างกันในเว็บไซต์ทางการ XX ดังนี้⋯⋯'
+          $textarea.placeholder = 'ตัวอย่าง: ฉันใช้คำว่า ⋯⋯ เพื่อค้นหาบน Facebook และพบว่า ⋯⋯ / ฉันพบข้อมูลที่แตกต่างกันกับในเว็บไซต์ทางการ ⋯⋯ ดังนี้ ⋯⋯'
           break;
         case 'ASKING_REPLY_REQUEST_REASON':
-          $prompt.innerText = `บางคนมีคำถามเกี่ยวกับ "${text}" เช่นคุณ เพื่อช่วยในการตรวจสอบ โปรดบอกบรรณาธิการแก้ไข:`;
+          $prompt.innerText = `บางคนมีคำถามเกี่ยวกับ 「${text}」 คล้ายกับคุณ โปรดแจ้งเบาะแสให้แก่บรรณาธิการเพื่อช่วยในการตรวจสอบ:`;
           $reasonLabel.innerText = 'ทำไมคุณถึงคิดว่านี่เป็นข่าวลือ';
-          $textarea.placeholder = 'ตัวอย่าง: ฉันใช้คำสำคัญ OO เพื่อค้นหา Facebook และพบว่า⋯⋯ / ฉันพบคำสั่งที่แตกต่างกันในเว็บไซต์ทางการ XX ดังนี้⋯⋯'
+          $textarea.placeholder = 'ตัวอย่าง: ฉันใช้คำว่า ⋯⋯ เพื่อค้นหาบน Facebook และพบว่า ⋯⋯ / ฉันพบข้อมูลที่แตกต่างกันกับในเว็บไซต์ทางการ ⋯⋯ ดังนี้ ⋯⋯'
           break;
         case 'ASKING_REPLY_FEEDBACK':
-          $prompt.innerText = `很遺憾您覺得「${text} 」這則回應沒有幫助。`;
-          $reasonLabel.innerText = '請問您覺得怎麼改才會更有幫助呢？'
+          $prompt.innerText = `น่าเสียดายที่คุณรู้สึกว่าความเห็น 「${text} 」นี้ไม่ได้ช่วยอะไรเท่าไร`;
+          $reasonLabel.innerText = 'คุณคิดเห็นอย่างไร เพื่อให้มันจะมีประโยชน์มากขึ้น?'
           break;
         default:
-          $prompt.innerText = '請提供理由：';
+          $prompt.innerText = 'กรุณาให้เหตุผล';
           break;
       }
 
@@ -113,10 +113,10 @@
 
       const $form = document.querySelector('#form');
       const lengthenHint = `
-你可以試著：
-A. 闡述更多想法
-B. 去 google 查查看
-C. 把全文複製貼上到 Facebook 搜尋框看看`
+คุณสามารถลอง:
+A. อธิบายแนวคิดเพิ่มเติม
+B. ไปที่ Google เพื่อตรวจสอบ
+C. คัดลอกข้อความแบบเต็มและวางลงในช่องค้นหาของ Facebook`
       $form.addEventListener('submit', e => {
         e.preventDefault();
         const reason = e.target.reason.value;
@@ -125,17 +125,16 @@ C. 把全文複製貼上到 Facebook 搜尋框看看`
            state === 'ASKING_REPLY_REQUEST_REASON') {
           if(reason.length < SUFFICIENT_REASON_LENGTH) {
             if(!confirm(`
-提供給編輯的資訊可以再豐富一些，會讓編輯回覆越快唷！
+ข้อมูลที่มอบให้กับบรรณาธิการ จะช่วยเสริม และทำให้การตอบกลับทำได้เร็วขึ้น
 
 ${lengthenHint}
-
-若要補充資訊，請按「取消」；覺得現在這樣送出就好，請按「確定」
+หากต้องการเพิ่มหรือแก้ไขเหตุผล โปรดคลิก 「ยกเลิก」 แต่ถ้าแน่ใจแล้วว่าจะส่งออกตอนนี้ โปรดคลิก 「ตกลง」
             `)) {
               return;
             }
           } else if (reason === text) {
             alert(`
-您提供的資訊不應該與訊息原文相同。
+เหตุผลที่คุณให้ไม่ควรเหมือนกับข้อความต้นฉบับ
 
 ${lengthenHint}
 `);
@@ -151,9 +150,9 @@ ${lengthenHint}
       });
 
       liff.init(({context: {userId}}) => {
-        fetch(`https://rumor-line-bot.ngrok.io/context/${userId}`).then(resp => resp.json()).then(data => {
+        fetch(`https://line-bot.cofact.org/context/${userId}`).then(resp => resp.json()).then(data => {
           if(!data || data.state !== state || data.issuedAt.toString() !== issuedAt ) {
-            alert('因為您傳了新的訊息進來，所以這顆舊按鈕已經不會動囉！');
+            alert('เนื่องจากคุณได้ส่งข้อความใหม่ไปแล้ว ปุ่มเก่านี้จึงใช้ไม่ได้อีกต่อไป!');
             liff.closeWindow();
           }
         }).catch(alert)

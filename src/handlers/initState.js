@@ -111,7 +111,7 @@ export default async function initState(params) {
         columns: edgesSortedWithSimilarity
           .map(({ node: { text }, similarity }, idx) => ({
             text: `[${i18n.__("similarity")}:${(similarity * 100).toFixed(2) +
-              '%'}] \n ${ellipsis(text, 100, '')}`,
+              '%'}] \n ${ellipsis(text, 80, '')}`,
             actions: [createPostbackAction(i18n.__("chooseThis"), idx + 1, issuedAt)],
           }))
           .concat(
