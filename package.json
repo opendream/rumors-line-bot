@@ -7,7 +7,7 @@
     "test": "jest",
     "start": "pm2-runtime start ecosystem.config.js --env production",
     "dev": "pm2-dev ecosystem.dev.config.js",
-    "postinstall": "babel src -d build",
+    "postinstall": "babel src -d build; babel src/i18n/locales --out-dir build/i18n/locales --copy-files",
     "lint:fix": "eslint --fix .",
     "lint": "eslint .",
     "preliff": "bash build-liff.sh",
