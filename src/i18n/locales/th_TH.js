@@ -1,4 +1,4 @@
-{
+export default {
   "Can not find %s message": "Unable to find message related to「%s」",
   "Where did you see this message from?": "Where did you see this message?",
   "Relatives pass": "Relatives forwarded",

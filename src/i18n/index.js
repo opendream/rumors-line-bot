@@ -1,8 +1,5 @@
 
 import i18n from 'i18n';
-import './locales/zh_TW';
-import './locales/en_XX';
-import './locales/th_TH';
 
 const LANGUAGE_CODE = process.env.LANGUAGE_CODE || 'zh_TW';
 
