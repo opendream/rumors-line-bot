@@ -208,7 +208,7 @@ export default async function choosingArticle(params) {
                     negativeFeedbackCount
                   ) +
                   '\n' +
-                  ellipsis(reply.text, 80, ''),
+                  ellipsis(reply.text, 50, ''),
                 actions: [
                   createPostbackAction(i18n.__(`Read this response`), idx + 1, issuedAt),
                 ],
