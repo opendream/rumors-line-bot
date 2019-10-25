@@ -82,12 +82,12 @@
       switch(state){
         case 'ASKING_ARTICLE_SUBMISSION_REASON':
           $prompt.innerText = `คุณกำลังจะส่ง 「${text}」 ไปยังฐานข้อมูลสาธารณะ โปรดแจ้งเบาะแสให้แก่บรรณาธิการเพื่อช่วยในการตรวจสอบ:`;
-          $reasonLabel.innerText = 'ทำไมคุณถึงคิดว่านี่เป็นข่าวลือ?';
+          $reasonLabel.innerText = 'ทำไมคุณถึงคิดว่านี่เป็นข่าวลวง?';
           $textarea.placeholder = 'ตัวอย่าง: ฉันใช้คำว่า ⋯⋯ เพื่อค้นหาบน Facebook และพบว่า ⋯⋯ / ฉันพบข้อมูลที่แตกต่างกันกับในเว็บไซต์ทางการ ⋯⋯ ดังนี้ ⋯⋯'
           break;
         case 'ASKING_REPLY_REQUEST_REASON':
           $prompt.innerText = `บางคนมีคำถามเกี่ยวกับ 「${text}」 คล้ายกับคุณ โปรดแจ้งเบาะแสให้แก่บรรณาธิการเพื่อช่วยในการตรวจสอบ:`;
-          $reasonLabel.innerText = 'ทำไมคุณถึงคิดว่านี่เป็นข่าวลือ';
+          $reasonLabel.innerText = 'ทำไมคุณถึงคิดว่านี่เป็นข่าวลวง';
           $textarea.placeholder = 'ตัวอย่าง: ฉันใช้คำว่า ⋯⋯ เพื่อค้นหาบน Facebook และพบว่า ⋯⋯ / ฉันพบข้อมูลที่แตกต่างกันกับในเว็บไซต์ทางการ ⋯⋯ ดังนี้ ⋯⋯'
           break;
         case 'ASKING_REPLY_FEEDBACK':
@@ -114,9 +114,9 @@
       const $form = document.querySelector('#form');
       const lengthenHint = `
 คุณสามารถลอง:
-A. อธิบายแนวคิดเพิ่มเติม
-B. ไปที่ Google เพื่อตรวจสอบ
-C. คัดลอกข้อความแบบเต็มและวางลงในช่องค้นหาของ Facebook`
+1. อธิบายแนวคิดเพิ่มเติม
+2. ไปที่ Google เพื่อตรวจสอบ
+3. คัดลอกข้อความแบบเต็มและวางลงในช่องค้นหาของ Facebook`
       $form.addEventListener('submit', e => {
         e.preventDefault();
         const reason = e.target.reason.value;
