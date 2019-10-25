@@ -102,7 +102,7 @@
   "Don't forget to pass the above response back to your chat room and show it to others!": "อย่าลืมส่งความเห็นข้างบนกลับไปยังเพื่อนๆ หรือ ญาติๆ ในห้องแชทของคุณ และถ้าคุณคิดว่าคุณมีความเห็นที่ดีกว่านี้ เราก็ยินดีรับความเห็นใหม่จากคุณเช่นกัน!",
   "If you think you can respond better, welcome to %s to submit a new response!": "ถ้าคุณเห็นว่าคุณมีความเห็นที่เป็นประโยชน์ เรายินดีรับความเห็นใหม่จากคุณ ส่งมาได้ที่ %s!",
   "If you think you can respond better, please feel free to submit a new response!": "ถ้าคุณเห็นว่าคุณมีความเห็นที่เป็นประโยชน์ เรายินดีรับความเห็นใหม่จากคุณ!",
-  "Share with friends": "ส่งให้เพื่อน",
-  "Submit a new response": "มีความเห็นใหม่",
+  "Share with friends": "ส่งต่อ",
+  "Submit a new response": "มีความเห็นเพิ่ม",
   "Please click \"Yes\" or \"No\" above to express your opinion on the response, or change the other information to me.": "Please click 「Yes」 or 「No」 to express your opinion on the response or forward other messages to me as inquiries."
 }
