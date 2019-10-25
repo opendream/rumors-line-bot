@@ -21,9 +21,15 @@ export function createPostbackAction(label, input, issuedAt) {
  */
 export function createFeedbackWords(positive, negative) {
   if (positive + negative === 0) return i18n.__(`[No one has yet commented on this response]`);
+
   let result = '';
-  if (positive) result += i18n.__(`There are %s people think this response is helpful`, positive) + '\n';
-  if (negative) result += i18n.__(`There are %s people think this response didn't help`, negative) + '\n';
+  if (positive && negative) {
+    result = i18n.__(`There are (%s:%s) people think this response is (helpful:didn't help)`, positive, negative) + '\n';
+  } else if (positive) {
+    result = i18n.__(`There are %s people think this response is helpful`, positive) + '\n';
+  } else if (negative) {
+    result = i18n.__(`There are %s people think this response didn't help`, negative) + '\n';
+  }
   return `[${result.trim()}]`;
 }
 
