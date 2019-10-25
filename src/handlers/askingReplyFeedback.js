@@ -87,7 +87,7 @@ export default async function askingReplyFeedback(params) {
             {
               type: 'uri',
               label: i18n.__(`Share with friends`),
-              uri: `line://msg/text/?${ellipsis(encodeURI(sharedText), 900)}`,
+              uri: `line://msg/text/?${encodeURI(ellipsis(sharedText, 900/3, ''))}`,
             },
             {
               type: 'uri',
