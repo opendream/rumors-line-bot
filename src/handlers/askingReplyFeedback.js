@@ -64,7 +64,7 @@ export default async function askingReplyFeedback(params) {
     const articleUrl = getArticleURL(data.selectedArticleId);
     let sharedText = `${i18n.__("Someone on the internet said")}「${ellipsis(
       data.selectedArticleText,
-      15
+      8
     )}」 ${createTypeWords(
       GetReply.type
     )}${i18n.__("Oh!")} \n\n${i18n.__("Please go to %s to see the responses, reasons, and related sources of the folks!", articleUrl)}`;
@@ -87,7 +87,7 @@ export default async function askingReplyFeedback(params) {
             {
               type: 'uri',
               label: i18n.__(`Share with friends`),
-              uri: `line://msg/text/?${encodeURI(ellipsis(sharedText, 500/3, ''))}`,
+              uri: `line://msg/text/?${encodeURI(sharedText)}`,
             },
             {
               type: 'uri',
