@@ -68,8 +68,6 @@ export default async function askingReplyFeedback(params) {
     )}」 ${createTypeWords(
       GetReply.type
     )}${i18n.__("Oh!")} \n\n${i18n.__("Please go to %s to see the responses, reasons, and related sources of the folks!", articleUrl)}`;
-
-    sharedText = 'cccccc'
     
     replies = [
       {
