@@ -91,7 +91,7 @@ export default async function askingReplyFeedback(params) {
             },
             {
               type: 'uri',
-              label: i18n.__(`Submit a new response`),
+              label: i18n.__(`Submit new response`),
               uri: getArticleURL(data.selectedArticleId),
             },
           ],
