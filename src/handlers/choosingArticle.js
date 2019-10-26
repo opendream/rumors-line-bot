@@ -240,7 +240,7 @@ export default async function choosingArticle(params) {
         i18n.__(`Where did you see this message from?`) + ' \n' +
         '\n' +
         data.articleSources
-          .map((option, index) => `${option} > 請傳 ${index + 1}\n`)
+          .map((option, index) => `${option} > พิมพ์ ${index + 1}\n`)
           .join('') +
         '\n' +
         i18n.__(`pleasePressButton`);
