@@ -11,7 +11,7 @@ import lineClient from './lineClient';
 import handleInput from './handleInput';
 import { uploadImageFile } from './fileUpload';
 import ga from './ga';
-import i18n from 'i18n';
+import i18n from './i18n';
 
 const app = new Koa();
 const router = Router();
