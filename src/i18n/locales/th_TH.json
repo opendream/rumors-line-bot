@@ -105,5 +105,6 @@
   "Share with friends": "ส่งต่อ",
   "Submit a new response": "มีความเห็นเพิ่ม",
   "Please click \"Yes\" or \"No\" above to express your opinion on the response, or change the other information to me.": "Please click 「Yes」 or 「No」 to express your opinion on the response or forward other messages to me as inquiries.",
-  "BotIsOutOfOrder": "โอ้ บอทของเราทำงานไม่ได้ชั่วคราว โปรดลองใหม่อีกครั้งหนึ่ง 🙏"
+  "BotIsOutOfOrder": "โอ้ บอทของเราทำงานไม่ได้ชั่วคราว โปรดลองใหม่อีกครั้งหนึ่ง 🙏",
+  "UnsupportedMessageTypeWarning": "ระบบยังรองรับแต่ข้อความเท่านั้นจ้า 🙏"
 }

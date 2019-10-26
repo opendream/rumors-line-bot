@@ -104,6 +104,7 @@
   "Share with friends": "Share with friends",
   "Submit a new response": "Submit a new response",
   "Please click \"Yes\" or \"No\" above to express your opinion on the response, or change the other information to me.": "Please click 「Yes」 or 「No」 to express your opinion on the response or forward other messages to me as inquiries.",
-  "BotIsOutOfOrder": "Oops, the bot is out of order. Can I pass it again? QQ"
+  "BotIsOutOfOrder": "Oops, the bot is out of order. Can I pass it again? QQ",
+  "UnsupportedMessageTypeWarning": "We don't support messages other than text!"
 
 }

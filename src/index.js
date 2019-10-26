@@ -76,7 +76,7 @@ const singleUserHandler = async (
     replies: [
       {
         type: 'text',
-        text: '我們還不支援文字以外的訊息唷！',
+        text: i18n.__(`UnsupportedMessageTypeWarning`),
       },
     ],
   };
