@@ -11,6 +11,7 @@ import lineClient from './lineClient';
 import handleInput from './handleInput';
 import { uploadImageFile } from './fileUpload';
 import ga from './ga';
+import i18n from 'i18n';
 
 const app = new Koa();
 const router = Router();
@@ -142,7 +143,7 @@ const singleUserHandler = async (
         replies: [
           {
             type: 'text',
-            text: '糟糕，bot 故障了。可以再傳一次嗎？ QQ',
+            text: i18n.__(`BotIsOutOfOrder`),
           },
         ],
       };
