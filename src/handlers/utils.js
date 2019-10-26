@@ -131,7 +131,7 @@ export function createAskArticleSubmissionReply(state, text, prefix, issuedAt) {
             {
               type: 'text',
               text:
-                i18n.__(`There is currently no message in your database. If this is a \"transfer message\" and you think it is likely to be a \"rumor\", `),
+                i18n.__(`There is currently no message in your database. If this is a \"transfer message\" and you think it is likely to be a \"rumor\"`),
               wrap: true,
             },
             {
