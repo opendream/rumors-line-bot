@@ -30,22 +30,22 @@ export default async function askingArticleSource(params) {
       {
         type: 'template',
         altText:
-          i18n.__(`Ok, I suggest you pass the message to MyGoPen or rum toast. Both are very professional rumors and you have a 💁 someone to answer your questions!`),
+          i18n.__(`Ok, I suggest you pass the message to Sure and Share. Both are very professional rumors and you have a 💁 someone to answer your questions!`),
         template: {
           type: 'confirm',
           text:
-            i18n.__(`Ok, I suggest you pass the message to MyGoPen or rum toast. Both are very professional rumors and you have a 💁 someone to answer your questions!`),
+            i18n.__(`Ok, I suggest you pass the message to Sure and Share. Both are very professional rumors and you have a 💁 someone to answer your questions!`),
           actions: [
             {
               type: 'uri',
-              label: 'MyGoPen',
-              uri: `line://ti/p/%40mygopen`,
+              label: i18n.__(`SureAndShare`),
+              uri: `line://ti/p/geq7886n`,
             },
-            {
-              type: 'uri',
-              label: i18n.__(`Rum toast`),
-              uri: `line://ti/p/1q14ZZ8yjb`,
-            },
+            //{
+            //  type: 'uri',
+            //  label: i18n.__(`Rum toast`),
+            //  uri: `line://ti/p/1q14ZZ8yjb`,
+            //},
           ],
         },
       },
