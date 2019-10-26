@@ -104,5 +104,6 @@
   "If you think you can respond better, please feel free to submit a new response!": "ถ้าคุณเห็นว่าคุณมีความเห็นที่เป็นประโยชน์ เรายินดีรับความเห็นใหม่จากคุณ!",
   "Share with friends": "ส่งต่อ",
   "Submit a new response": "มีความเห็นเพิ่ม",
-  "Please click \"Yes\" or \"No\" above to express your opinion on the response, or change the other information to me.": "Please click 「Yes」 or 「No」 to express your opinion on the response or forward other messages to me as inquiries."
+  "Please click \"Yes\" or \"No\" above to express your opinion on the response, or change the other information to me.": "Please click 「Yes」 or 「No」 to express your opinion on the response or forward other messages to me as inquiries.",
+  "BotIsOutOfOrder": "โอ้ บอทของเราทำงานไม่ได้ชั่วคราว โปรดลองใหม่อีกครั้งหนึ่ง",
 }
