@@ -64,7 +64,7 @@ export default async function askingReplyFeedback(params) {
     const articleUrl = getArticleURL(data.selectedArticleId);
     let sharedText = `${i18n.__("Someone on the internet said")} "${ellipsis(
       data.selectedArticleText,
-      8, '...'
+      20, '...' //original was 8
     )}" ${createTypeWords(
       GetReply.type
     )}${i18n.__("Oh!")} \n\n${i18n.__("Please go to %s to see the responses, reasons, and related sources of the folks!", articleUrl)}`;
