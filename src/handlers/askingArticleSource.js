@@ -41,11 +41,11 @@ export default async function askingArticleSource(params) {
               label: i18n.__(`SureAndShare`),
               uri: `line://ti/p/geq7886n`,
             },
-            //{
-            //  type: 'uri',
-            //  label: i18n.__(`Rum toast`),
-            //  uri: `line://ti/p/1q14ZZ8yjb`,
-            //},
+            {
+              type: 'uri',
+              label: i18n.__(`Rum toast`),
+              uri: `line://ti/p/1q14ZZ8yjb`,
+            },
           ],
         },
       },
