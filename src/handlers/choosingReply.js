@@ -20,7 +20,9 @@ export default async function choosingReply(params) {
 
   const visitor = ga(userId, state, data.selectedArticleText);
 
-  const selectedReplyId = data.foundReplyIds[event.input - 1];
+  const selectedReply = data.foundReplyIds[event.input - 1];
+  const selectedReplyId = selectedReply && selectedReply.id;
+  const selectedReplyBelongTo = selectedReply && selectedReply.belongTo;
 
   if (!selectedReplyId) {
     replies = [
@@ -47,10 +49,15 @@ export default async function choosingReply(params) {
 
     const articleUrl = getArticleURL(data.selectedArticleId);
 
+    let verifiedBy = ''
+    if (selectedReplyBelongTo) {
+      verifiedBy = '\n' + i18n.__('verified by %s 🌟', selectedReplyBelongTo);
+    }
+
     replies = [
       {
         type: 'text',
-        text: `${i18n.__("You choose comment no.%s", event.input)}\n\n💡 ${i18n.__("Someone on the Internet responded to this message like this:")}`+ '\n' + ellipsis(GetReply.text, 1900),
+        text: `${i18n.__("You choose comment no.%s", event.input)}${verifiedBy}\n\n💡 ${i18n.__("Someone on the Internet responded to this message like this:")}`+ '\n' + ellipsis(GetReply.text, 1900),
       },
       {
         type: 'text',

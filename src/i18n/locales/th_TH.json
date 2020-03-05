@@ -113,5 +113,7 @@
   "Sorry, can't go back to that step.": "ขออภัยด้วย ผมไม่สามารถย้อนกลับไปที่ขั้นตอนนั้นได้แล้ว 🙏",
   "Comment no.%s": "คห.%s",
   "or": "หรือ",
-  "This button will take you to the Cofact website": "ปุ่มนี้จะพาคุณไปยังเว็บไซต์ Cofact 🛫"
+  "This button will take you to the Cofact website": "ปุ่มนี้จะพาคุณไปยังเว็บไซต์ Cofact 🛫",
+  "verified by %s 🌟:": "ยืนยันแล้วโดย %s 🌟 ว่า",
+  "verified by %s 🌟": "ยืนยันแล้วโดย %s 🌟"
 }

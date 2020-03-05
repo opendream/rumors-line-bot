@@ -17,17 +17,22 @@ import i18n from '../i18n';
  * 還有空間，才放「不在查證範圍」的回應。最後一句的最後一格顯示「看其他回應」，連到網站。
  */
 function reorderArticleReplies(articleReplies) {
+  const verifiedReplies = [];
   const replies = [];
   const notArticleReplies = [];
 
   for (let articleReply of articleReplies) {
-    if (articleReply.reply.type !== 'NOT_ARTICLE') {
-      replies.push(articleReply);
+    if (articleReply.user && articleReply.user.belongTo) {
+      verifiedReplies.push(articleReply)
     } else {
-      notArticleReplies.push(articleReply);
+      if (articleReply.reply.type !== 'NOT_ARTICLE') {
+        replies.push(articleReply);
+      } else {
+        notArticleReplies.push(articleReply);
+      }
     }
   }
-  return replies.concat(notArticleReplies);
+  return verifiedReplies.concat(replies.concat(notArticleReplies));
 }
 
 // https://developers.line.me/en/docs/messaging-api/reference/#template-messages
@@ -115,6 +120,10 @@ export default async function choosingArticle(params) {
           text
           replyCount
           articleReplies(status: NORMAL) {
+            user {
+              id
+              belongTo
+            }
             reply {
               id
               type
@@ -170,7 +179,7 @@ export default async function choosingArticle(params) {
     ];
 
     if (articleReplies.length !== 0) {
-      data.foundReplyIds = articleReplies.map(({ reply }) => reply.id);
+      data.foundReplyIds = articleReplies.map(({ reply, user }) => ({id: reply.id, belongTo: user && user.belongTo}));
 
       state = 'CHOOSING_REPLY';
 
@@ -199,12 +208,18 @@ export default async function choosingArticle(params) {
             .slice(0, 10)
             .map(
               (
-                { reply, positiveFeedbackCount, negativeFeedbackCount },
+                { reply, positiveFeedbackCount, negativeFeedbackCount, user },
                 idx
               ) => {
                 let limitWords = 120;
+
+                let verifiedBy = ''
+                if (user && user.belongTo) {
+                  verifiedBy = ' ' + i18n.__('verified by %s 🌟:', user.belongTo);
+                }
+
                 let prefix = 
-                i18n.__('Comment no.%s', idx + 1) + 
+                i18n.__('Comment no.%s', idx + 1) + verifiedBy +
                 '\n' +
                 createTypeWords(reply.type) +
                 '\n' +
