@@ -135,6 +135,7 @@ export default async function initState(params) {
       {
         type: 'text',
         text: i18n.__("messageYouJustSent"),
+        delay: 3,
       },
       templateMessage,
     ];
@@ -179,15 +180,25 @@ export default async function initState(params) {
 
       replies = [
         {
+          type: 'text',
+          text: `${i18n.__('Can not find %s message', articleSummary)}`
+        },
+        // {
+        //   type: 'text',
+        //   text: `${i18n.__('Advise you to send this message to There is a professional media team ready to help you check the truth.')}`,
+        //   delay: 3
+        // },
+        {
           type: 'template',
           altText,
           template: {
             type: 'buttons',
-            text: `${i18n.__('Can not find %s message', articleSummary)}\n${i18n.__('Where did you see this message from?')}`,
+            text: `${i18n.__('Where did you see this message from?')}`,
             actions: data.articleSources.map((option, index) =>
               createPostbackAction(option, index + 1, issuedAt)
             ),
           },
+          delay: 3
         },
       ];
       state = 'ASKING_ARTICLE_SOURCE';

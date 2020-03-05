@@ -69,8 +69,6 @@ export default async function choosingArticle(params) {
   } else if (doesNotContainMyArticle) {
     data.articleSources = ARTICLE_SOURCES;
     const altText =
-      i18n.__(`Ah, it seems that your message has not been included in our database.`) + ' \n' +
-      '\n' +
       i18n.__(`Where did you see this message from?`) + ' \n' +
       '\n' +
       data.articleSources
@@ -81,12 +79,16 @@ export default async function choosingArticle(params) {
 
     replies = [
       {
+        type: 'text',
+        text: i18n.__(`Ah, it seems that your message has not been included in our database.`) 
+      },
+      {
         type: 'template',
         altText,
         template: {
           type: 'buttons',
           text:
-            i18n.__(`Ah, it seems that your message has not been included in our database.`) + '\n' + i18n.__(`whereSeeMessage`),
+            i18n.__(`whereSeeMessage`),
           actions: data.articleSources.map((option, index) =>
             createPostbackAction(option, index + 1, issuedAt)
           ),
@@ -154,11 +156,11 @@ export default async function choosingArticle(params) {
 
     const articleReplies = reorderArticleReplies(GetArticle.articleReplies);
     const summary =
-      i18n.__(`This message has:`) + ' \n' +
-      `${count.RUMOR || 0} ${i18n.__("Then the response is marked")} ❌ ${i18n.__("contains false information")}\n` +
-      `${count.NOT_RUMOR || 0} ${i18n.__("Then the response is marked")} ⭕ ${i18n.__("contains real information")}\n` +
-      `${count.OPINIONATED || 0} ${i18n.__("Then the response is marked")} 💬 ${i18n.__("contains personal opinions")}\n` +
-      `${count.NOT_ARTICLE || 0} ${i18n.__("Then the response is marked")} ⚠️️ ${i18n.__(`Not in the scope of verification`)}\n`;
+      i18n.__(`This message has %s comments:`, GetArticle.articleReplies.length) + ' \n' +
+      `${count.RUMOR || 0} ${i18n.__("Then the response is marked")} ${i18n.__("contains false information")} ❌\n` +
+      `${count.NOT_RUMOR || 0} ${i18n.__("Then the response is marked")} ${i18n.__("contains real information")} ⭕\n` +
+      `${count.OPINIONATED || 0} ${i18n.__("Then the response is marked")} ${i18n.__("contains personal opinions")} 💬\n` +
+      `${count.NOT_ARTICLE || 0} ${i18n.__("Then the response is marked")} ${i18n.__(`Not in the scope of verification`)} ⚠️️\n`;
 
     replies = [
       {
@@ -199,20 +201,26 @@ export default async function choosingArticle(params) {
               (
                 { reply, positiveFeedbackCount, negativeFeedbackCount },
                 idx
-              ) => ({
-                text:
-                  createTypeWords(reply.type) +
-                  '\n' +
-                  createFeedbackWords(
-                    positiveFeedbackCount,
-                    negativeFeedbackCount
-                  ) +
-                  '\n' +
-                  ellipsis(reply.text, 40, ''),
-                actions: [
-                  createPostbackAction(i18n.__(`Read this response`), idx + 1, issuedAt),
-                ],
-              })
+              ) => {
+                let limitWords = 120;
+                let prefix = 
+                i18n.__('Comment no.%s', idx + 1) + 
+                '\n' +
+                createTypeWords(reply.type) +
+                '\n' +
+                createFeedbackWords(
+                  positiveFeedbackCount,
+                  negativeFeedbackCount
+                ) +
+                '\n';
+
+                return {
+                  text: ellipsis(prefix + reply.text, limitWords, '...'),
+                  actions: [
+                    createPostbackAction(i18n.__(`Read this response`), idx + 1, issuedAt),
+                  ],
+                }
+              }
             ),
         },
       });
@@ -252,7 +260,7 @@ export default async function choosingArticle(params) {
           template: {
             type: 'buttons',
             text:
-              i18n.__(`Sorry, no one has responded to this message yet!`) + '\n' + i18n.__(`whereSeeMessage`),
+              i18n.__(`Sorry, no one has responded to this message yet!`) + '\n\n' + i18n.__(`whereSeeMessage`),
             actions: data.articleSources.map((option, index) =>
               createPostbackAction(option, index + 1, issuedAt)
             ),

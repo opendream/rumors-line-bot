@@ -100,6 +100,13 @@ const singleUserHandler = async (
       //
       if (data.issuedAt !== context.issuedAt) {
         console.log('Previous button pressed.');
+        lineClient('/message/reply', {
+          replyToken,
+          messages: [{
+            type: 'text',
+            text: i18n.__(`Sorry, can't go back to that step.`)
+          }],
+        });    
         return;
       }
 
@@ -199,13 +206,65 @@ const singleUserHandler = async (
       .send();
   }
 
-  // Send replies. Does not need to wait for lineClient's callbacks.
-  // lineClient's callback does error handling by itself.
-  //
-  lineClient('/message/reply', {
-    replyToken,
-    messages: result.replies,
-  });
+  const ENABLE_DELAY = false;
+  if (!ENABLE_DELAY) {
+
+    lineClient('/message/reply', {
+      replyToken,
+      messages: result.replies,
+    });
+
+  } else {
+
+    // Delay reply preparing
+
+    let groupReplies = [];
+    let currentRepiles = {replies: []};
+
+    result.replies.forEach(reply => {
+      if (reply.delay) {
+        if (currentRepiles.replies.length > 0) {
+          groupReplies.push(currentRepiles);
+        }
+        currentRepiles = {delay: reply.delay, replies: [reply]}
+        delete(reply.delay);
+        // groupReplies.push(currentRepiles);
+
+      } else {
+        currentRepiles.replies.push(reply);
+      }
+    });
+    if (currentRepiles.replies.length > 0) {
+      groupReplies.push(currentRepiles);
+    }
+
+    // Send replies. Does not need to wait for lineClient's callbacks.
+    // lineClient's callback does error handling by itself.
+    //
+
+    for (let i in groupReplies) {
+      
+      const groupResult = groupReplies[i];
+
+      if (groupResult.delay) {
+        await new Promise(r => setTimeout(r, groupResult.delay*1000)); 
+      }
+      
+      if (!groupResult.delay && i == 0) {
+        lineClient('/message/reply', {
+          replyToken,
+          messages: groupResult.replies,
+        });
+      } else {
+        lineClient('/message/push', {
+          to: userId,
+          messages: groupResult.replies,
+        });
+      }
+    }
+  }
+
+
 
   // Set context
   //

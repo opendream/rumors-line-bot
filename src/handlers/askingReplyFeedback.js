@@ -79,10 +79,10 @@ export default async function askingReplyFeedback(params) {
       },
       {
         type: 'template',
-        altText: `📲 ${i18n.__("Don't forget to pass the above response back to your chat room and show it to others!")}\n💁 ${i18n.__("If you think you can respond better, welcome to %s to submit a new response!", articleUrl)}`,
+        altText: `📲 ${i18n.__("Don't forget to pass the above response back to your chat room and show it to others!")}\n\n💁 ${i18n.__("If you think you can respond better, welcome to %s to submit a new response!", articleUrl)}`,
         template: {
           type: 'confirm',
-          text: `📲 ${i18n.__("Don't forget to pass the above response back to your chat room and show it to others!")}\n💁 ${i18n.__("If you think you can respond better, please feel free to submit a new response!")}`,
+          text: `📲 ${i18n.__("Don't forget to pass the above response back to your chat room and show it to others!")}\n\n💁 ${i18n.__("If you think you can respond better, please feel free to submit a new response!")}`,
           actions: [
             {
               type: 'uri',

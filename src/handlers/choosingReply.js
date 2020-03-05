@@ -50,25 +50,28 @@ export default async function choosingReply(params) {
     replies = [
       {
         type: 'text',
-        text: `💡 ${i18n.__("Someone on the Internet responded to this message like this:")}`,
-      },
-      {
-        type: 'text',
-        text: ellipsis(GetReply.text, 2000),
+        text: `${i18n.__("You choose comment no.%s", event.input)}\n\n💡 ${i18n.__("Someone on the Internet responded to this message like this:")}`+ '\n' + ellipsis(GetReply.text, 1900),
       },
       {
         type: 'text',
         text: ellipsis(createReferenceWords(GetReply), 2000),
+        delay: 5
       },
       {
         type: 'text',
-        text: `⬆️ ${i18n.__("In summary, the respondent believes that it")}${createTypeWords(
+        text: `⬆️ ${i18n.__("In summary, the respondent believes that it")}\n${createTypeWords(
           GetReply.type
-        )}。\n\n💁 ${i18n.__("The above information is provided by good people. Please consider the source and reason to think about it.")} \n${
+        )}`,
+        delay: 3,
+      },
+      { 
+        type: 'text',
+        text: `💁 ${i18n.__("The above information is provided by good people. Please consider the source and reason to think about it.")} \n${
           data.foundReplyIds.length > 1
-            ? `🗣️ ${"There are many different responses to this message. It is recommended to go to this place once and then judge:"} \n${articleUrl}\n`
+            ? `\n🗣️ ${i18n.__("There are many different responses to this message. It is recommended to go to this place once and then judge:")} \n${articleUrl}\n`
             : ''
         }\n⁉️ ${i18n.__("If you have a different opinion on this message, please feel free to write a new response here:")} \n${articleUrl}`,
+        delay: 3
       },
       {
         type: 'template',
@@ -91,6 +94,7 @@ export default async function choosingReply(params) {
             },
           ],
         },
+        delay: 7
       },
     ];
     // Track when user select a reply.

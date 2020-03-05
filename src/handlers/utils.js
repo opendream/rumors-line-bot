@@ -46,13 +46,13 @@ export function createFlexMessageText(text = '') {
 export function createTypeWords(type) {
   switch (type) {
     case 'RUMOR':
-      return i18n.__(`Contains false information`);
+      return i18n.__(`Contains false information`) + ' ❌';
     case 'NOT_RUMOR':
-      return i18n.__(`Contains real information`);
+      return i18n.__(`Contains real information`) + ' ⭕';
     case 'OPINIONATED':
-      return i18n.__(`Contains personal opinions`);
+      return i18n.__(`Contains personal opinions`) + ' 💬';
     case 'NOT_ARTICLE':
-      return i18n.__(`Not in the scope of verification`);
+      return i18n.__(`Not in the scope of verification`) + ' ⚠️️';
   }
   return i18n.__(`The status of the response is undefined!`);
 }
@@ -66,7 +66,7 @@ export function createTypeWords(type) {
 export function createReferenceWords({ reference, type }) {
   const prompt = type === 'OPINIONATED' ? i18n.__(`See different views`) : i18n.__(`Source`);
 
-  if (reference) return `${prompt}：${reference}`;
+  if (reference) return `${prompt}：\n${reference}`;
   return '\uDBC0\uDC85 ⚠️️ ' + i18n.__(`There is no %s for this response, please consider the credibility of the response.`, prompt) + '⚠️️  \uDBC0\uDC85';
 }
 

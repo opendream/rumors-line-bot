@@ -67,6 +67,10 @@ export default async function askingArticleSource(params) {
 
     replies = [
       {
+        type: 'text',
+        text: i18n.__('Ok, thank you.')
+      },
+      {
         type: 'flex',
         altText,
         contents: {
@@ -92,7 +96,7 @@ export default async function askingArticleSource(params) {
               {
                 type: 'text',
                 text:
-                  i18n.__(`Ok, thank you. If you want to be ignorant, you can follow this one, please click \"I want to know\" to tell everyone your thoughts.`),
+                  i18n.__(`If you want to be ignorant, you can follow this one, please click \"I want to know\" to tell everyone your thoughts.`),
                 wrap: true,
               },
             ],
@@ -114,6 +118,29 @@ export default async function askingArticleSource(params) {
                     issuedAt
                   ),
                 },
+              },
+              {
+                type: 'text',
+                text: '\n' + i18n.__('or') + '\n',
+                align: 'center',
+                wrap: true
+              },
+              {
+                type: 'button',
+                style: 'secondary',
+                action: {
+                  type: 'uri',
+                  label: '🙋 '+ i18n.__(`I know and want to comment`),
+                  uri: `${process.env.SITE_URL}/article/${data.selectedArticleId}`
+                },
+              },
+              {
+                type: 'text',
+                text: `\n${i18n.__('This button will take you to the Cofact website')}`,
+                size: 'xs',
+                color: '#888888',
+                align: 'center',
+                wrap: true
               },
             ],
           },
