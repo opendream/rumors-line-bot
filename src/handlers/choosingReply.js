@@ -68,10 +68,6 @@ export default async function choosingReply(params) {
     replies = replies.concat([
       {
         type: 'text',
-        text: `${i18n.__("You choose comment no.%s", event.input)}${verifiedBy}\n\n💡 ${i18n.__("Someone on the Internet responded to this message like this:")}`+ '\n' + ellipsis(GetReply.text, 1900),
-      },
-      {
-        type: 'text',
         text: ellipsis(createReferenceWords(GetReply), 2000),
         delay: 5
       },
