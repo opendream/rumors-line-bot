@@ -211,7 +211,7 @@ export default async function choosingArticle(params) {
                 { reply, positiveFeedbackCount, negativeFeedbackCount, user },
                 idx
               ) => {
-                let limitWords = 120;
+                let limitWords = 110;
 
                 let verifiedBy = ''
                 if (user && user.belongTo) {
