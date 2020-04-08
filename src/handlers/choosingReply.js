@@ -54,7 +54,18 @@ export default async function choosingReply(params) {
       verifiedBy = '\n' + i18n.__('verified by %s 🌟', selectedReplyBelongTo);
     }
 
-    replies = [
+    if (data.foundReplyIds.length == 1) {
+      replies = [
+        {
+          type: 'text',
+          text: `${i18n.__("You choose comment no.%s", event.input)}${verifiedBy}\n\n💡 ${i18n.__("Someone on the Internet responded to this message like this:")}`+ '\n' + ellipsis(GetReply.text, 1900),
+        }
+      ]
+    } else {
+      replies = []
+    }
+
+    replies = replies.concat([
       {
         type: 'text',
         text: `${i18n.__("You choose comment no.%s", event.input)}${verifiedBy}\n\n💡 ${i18n.__("Someone on the Internet responded to this message like this:")}`+ '\n' + ellipsis(GetReply.text, 1900),
@@ -103,7 +114,7 @@ export default async function choosingReply(params) {
         },
         delay: 7
       },
-    ];
+    ]);
     // Track when user select a reply.
     visitor.event({ ec: 'Reply', ea: 'Selected', el: selectedReplyId });
     // Track which reply type reply to user.
