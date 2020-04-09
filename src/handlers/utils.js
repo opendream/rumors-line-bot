@@ -47,6 +47,8 @@ export function createTypeWords(type) {
   switch (type) {
     case 'RUMOR':
       return i18n.__(`Contains false information`) + ' ❌';
+    case 'RUMOR_NOT_RUMOR':
+      return i18n.__(`Almost real information`) + ' ◑';
     case 'NOT_RUMOR':
       return i18n.__(`Contains real information`) + ' ⭕';
     case 'OPINIONATED':

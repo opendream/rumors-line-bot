@@ -166,8 +166,9 @@ export default async function choosingArticle(params) {
     const articleReplies = reorderArticleReplies(GetArticle.articleReplies);
     const summary =
       i18n.__(`This message has %s comments:`, GetArticle.articleReplies.length) + ' \n' +
+      `${count.NOT_RUMOR || 0} ${i18n.__("Then the response is marked")} ${i18n.__("almost real information")} ⭕\n` +
+      `${count.RUMOR_NOT_RUMOR || 0} ${i18n.__("Then the response is marked")} ${i18n.__("contains real information")} ◑\n` +
       `${count.RUMOR || 0} ${i18n.__("Then the response is marked")} ${i18n.__("contains false information")} ❌\n` +
-      `${count.NOT_RUMOR || 0} ${i18n.__("Then the response is marked")} ${i18n.__("contains real information")} ⭕\n` +
       `${count.OPINIONATED || 0} ${i18n.__("Then the response is marked")} ${i18n.__("contains personal opinions")} 💬\n` +
       `${count.NOT_ARTICLE || 0} ${i18n.__("Then the response is marked")} ${i18n.__(`Not in the scope of verification`)} ⚠️️\n`;
 
