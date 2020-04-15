@@ -30,7 +30,7 @@ describe('should select reply by replyId', async () => {
       {
         type: 'text',
         text:
-          '這篇訊息有：\n0 則回應認為其 ❌ 含有不實訊息\n0 則回應認為其 ⭕ 含有真實訊息\n0 則回應認為其 💬 含有個人意見\n1 則回應認為其 ⚠️️ 不在查證範圍\n',
+          '這篇訊息有：\n0 則回應認為其 ❌ 含有不實訊息\n0 則回應認為其 ✅ 含有真實訊息\n0 則回應認為其 💬 含有個人意見\n1 則回應認為其 ⚠️️ 不在查證範圍\n',
       },
     ],
     isSkipUser: false,
@@ -45,7 +45,7 @@ describe('should select reply by replyId', async () => {
     gql.__push(apiResult.oneReply);
     params.data.foundReplyIds.push('BVDZeeV0yCdS-nWhuml8');
     params.replies[0].text =
-      '這篇訊息有：\n0 則回應認為其 ❌ 含有不實訊息\n0 則回應認為其 ⭕ 含有真實訊息\n1 則回應認為其 💬 含有個人意見\n1 則回應認為其 ⚠️️ 不在查證範圍\n';
+      '這篇訊息有：\n0 則回應認為其 ❌ 含有不實訊息\n0 則回應認為其 ✅ 含有真實訊息\n1 則回應認為其 💬 含有個人意見\n1 則回應認為其 ⚠️️ 不在查證範圍\n';
     expect(await choosingReply(params)).toMatchSnapshot();
   });
 });
@@ -77,7 +77,7 @@ it('should handle invalid reply ids', async () => {
       {
         type: 'text',
         text:
-          '這篇訊息有：\n0 則回應認為其 ❌ 含有不實訊息\n0 則回應認為其 ⭕ 含有真實訊息\n0 則回應認為其 💬 含有個人意見\n1 則回應認為其 ⚠️️ 不在查證範圍\n',
+          '這篇訊息有：\n0 則回應認為其 ❌ 含有不實訊息\n0 則回應認為其 ✅ 含有真實訊息\n0 則回應認為其 💬 含有個人意見\n1 則回應認為其 ⚠️️ 不在查證範圍\n',
       },
     ],
     isSkipUser: false,
@@ -112,7 +112,7 @@ it('should handle invalid params', async () => {
       {
         type: 'text',
         text:
-          '這篇訊息有：\n0 則回應認為其 ❌ 含有不實訊息\n0 則回應認為其 ⭕ 含有真實訊息\n0 則回應認為其 💬 含有個人意見\n1 則回應認為其 ⚠️️ 不在查證範圍\n',
+          '這篇訊息有：\n0 則回應認為其 ❌ 含有不實訊息\n0 則回應認為其 ✅ 含有真實訊息\n0 則回應認為其 💬 含有個人意見\n1 則回應認為其 ⚠️️ 不在查證範圍\n',
       },
     ],
     isSkipUser: false,

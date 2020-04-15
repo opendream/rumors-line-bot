@@ -13,7 +13,7 @@ import i18n from '../i18n';
 
 /**
  * 第2句 (template message)：按照時間排序「不在查證範圍」之外的回應，每則回應第一行是
- * 「⭕ 含有真實訊息」或「❌ 含有不實訊息」之類的 (含 emoticon)，然後是回應文字。如果
+ * 「✅ 含有真實訊息」或「❌ 含有不實訊息」之類的 (含 emoticon)，然後是回應文字。如果
  * 還有空間，才放「不在查證範圍」的回應。最後一句的最後一格顯示「看其他回應」，連到網站。
  */
 function reorderArticleReplies(articleReplies) {
@@ -166,7 +166,7 @@ export default async function choosingArticle(params) {
     const articleReplies = reorderArticleReplies(GetArticle.articleReplies);
     const summary =
       i18n.__(`This message has %s comments:`, GetArticle.articleReplies.length) + ' \n' +
-      `${count.NOT_RUMOR || 0} ${i18n.__("Then the response is marked")} ${i18n.__("almost real information")} ⭕\n` +
+      `${count.NOT_RUMOR || 0} ${i18n.__("Then the response is marked")} ${i18n.__("almost real information")} ✅\n` +
       `${count.RUMOR_NOT_RUMOR || 0} ${i18n.__("Then the response is marked")} ${i18n.__("contains real information")} ◑\n` +
       `${count.RUMOR || 0} ${i18n.__("Then the response is marked")} ${i18n.__("contains false information")} ❌\n` +
       `${count.OPINIONATED || 0} ${i18n.__("Then the response is marked")} ${i18n.__("contains personal opinions")} 💬\n` +

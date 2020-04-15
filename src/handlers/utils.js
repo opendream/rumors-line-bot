@@ -50,7 +50,7 @@ export function createTypeWords(type) {
     case 'RUMOR_NOT_RUMOR':
       return i18n.__(`Almost real information`) + ' ◑';
     case 'NOT_RUMOR':
-      return i18n.__(`Contains real information`) + ' ⭕';
+      return i18n.__(`Contains real information`) + ' ✅';
     case 'OPINIONATED':
       return i18n.__(`Contains personal opinions`) + ' 💬';
     case 'NOT_ARTICLE':
