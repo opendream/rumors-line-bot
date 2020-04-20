@@ -6,6 +6,7 @@ import askingArticleSubmissionReason from './handlers/askingArticleSubmissionRea
 import askingReplyRequestReason from './handlers/askingReplyRequestReason';
 import askingArticleSource from './handlers/askingArticleSource';
 import defaultState from './handlers/defaultState';
+import queryCommand from './handlers/queryCommand';
 import { REASON_PREFIX, DOWNVOTE_PREFIX } from './handlers/utils';
 
 /**
@@ -45,7 +46,7 @@ export default async function handleInput(
 
   if (event.input.length > 6 && event.input.startsWith('/query')) {
     state = 'QUERY_COMMAND';
-    console.log('intercept query : ' + event.input + " :: :"+ data);
+    let queryContent = event.input.substring(7);
     //TODO:: SET state to query state
   }
 
@@ -92,8 +93,8 @@ export default async function handleInput(
         params = await askingArticleSource(params);
         break;
       }
-      case 'QUERY_COMMAND':{
-        params = await choosingArticle(params);
+      case 'QUERY_COMMAND': {
+        params = await queryCommand(params);
         break;
       }
       default: {
