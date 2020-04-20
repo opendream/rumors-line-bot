@@ -138,7 +138,7 @@ export default async function queryCommand(params) {
     replies = [
       {
         type: 'text',
-        text: i18n.__(`queryResponses`, articleSummary),
+        text: i18n.__(`queryResponses`, searchQuery),
       },
       {
         type: 'text',

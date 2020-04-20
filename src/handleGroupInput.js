@@ -20,7 +20,7 @@ import { REASON_PREFIX, DOWNVOTE_PREFIX } from './handlers/utils';
  * @param {*} issuedAt When this request is issued. Will be written in postback replies.
  * @param {*} userId LINE user ID that does the input
  */
-export default async function handleInput(
+export default async function handleGroupInput(
   { state = '__INIT__', data = {} },
   event,
   issuedAt,
@@ -33,18 +33,11 @@ export default async function handleInput(
     throw new Error('input undefined');
   }
 
-  if (
-    event.input.length >= 3 &&
-    !event.input.startsWith(REASON_PREFIX) &&
-    !event.input.startsWith(DOWNVOTE_PREFIX)
-  ) {
-    // If input contains more than 3 words and is not reason text,
-    // consider it as a new query and start over.
-    data = {};
-    state = '__INIT__';
+  if (event.input.length > 6 && event.input.startsWith('/query')) {
+    state = 'QUERY_COMMAND';
+  } else {
+    return;
   }
-
-
 
   let params = {
     data,
@@ -61,19 +54,19 @@ export default async function handleInput(
   do {
     params.isSkipUser = false;
     switch (params.state) {
-      case '__INIT__': {
-        params = await initState(params);
-        break;
-      }
       case 'CHOOSING_ARTICLE': {
+        console.log("CHOOSING_ARTICLE" + params);
         params = await choosingArticle(params);
         break;
       }
       case 'CHOOSING_REPLY': {
+        console.log("CHOOSING_Reply" + params);
         params = await choosingReply(params);
         break;
       }
       case 'ASKING_REPLY_FEEDBACK': {
+
+        // console.log("CHOOSING_ARTICLE" + params);
         params = await askingReplyFeedback(params);
         break;
       }
