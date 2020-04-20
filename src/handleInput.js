@@ -43,6 +43,12 @@ export default async function handleInput(
     state = '__INIT__';
   }
 
+  if (event.input.length > 6 && event.input.startsWith('/query')) {
+    state = 'QUERY_COMMAND';
+    console.log('intercept query : ' + event.input + " :: :"+ data);
+    //TODO:: SET state to query state
+  }
+
   let params = {
     data,
     state,
@@ -84,6 +90,10 @@ export default async function handleInput(
       }
       case 'ASKING_ARTICLE_SOURCE': {
         params = await askingArticleSource(params);
+        break;
+      }
+      case 'QUERY_COMMAND':{
+        params = await choosingArticle(params);
         break;
       }
       default: {
