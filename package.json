@@ -45,7 +45,8 @@
     "redis": "^2.6.5",
     "rollbar": "^2.2.9",
     "string-similarity": "^3.0.0",
-    "universal-analytics": "^0.4.16"
+    "universal-analytics": "^0.4.16",
+    "xxhashjs": "^0.2.2"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",

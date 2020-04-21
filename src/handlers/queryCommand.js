@@ -1,16 +1,16 @@
-import stringSimilarity from 'string-similarity';
 import gql from '../gql';
-import {
-  createPostbackAction,
-  isNonsenseText,
-  ellipsis,
-  ARTICLE_SOURCES,
-} from './utils';
 import ga from '../ga';
+import { h64 } from 'xxhashjs';
 
 import i18n from '../i18n';
 
-const SIMILARITY_THRESHOLD = 0.95;
+const xxhash64 = h64();
+export function getArticleId(text) {
+  return xxhash64
+    .update(text)
+    .digest()
+    .toString(36);
+}
 
 export default async function queryCommand(params) {
   let { data, state, event, issuedAt, userId, replies, isSkipUser } = params;
@@ -24,106 +24,39 @@ export default async function queryCommand(params) {
 
   console.log('SEARCHED TEXT : ' + data.searchedText);
 
+  let inputArticleId = getArticleId(event.input);
+  console.log('input Id : ' + inputArticleId);
   // Search for articles
+
   const {
-    data: { ListArticles },
+    data: { GetArticle },
   } = await gql`
     query($text: String!) {
-      ListArticles(
-        filter: { moreLikeThis: { like: $text } }
-        orderBy: [{ _score: DESC }]
-        first: 4
-      ) {
-        edges {
-          node {
-            text
+      GetArticle(id: $text) {
+        id
+        text
+        replyCount
+        articleReplies {
+          reply {
             id
-            replyCount
-            articleReplies {
-              reply {
-                id
-                text
-                type
-              }
-            }
+            type
           }
         }
       }
     }
   `({
-    text: event.input,
+    text: inputArticleId,
   });
 
-  console.log('LIST ARTICLES  : ' + ListArticles.edges.length);
+  console.log('Get :  ' + GetArticle);
 
-  if (ListArticles.edges.length) {
-    // Track if find similar Articles in DB.
-    visitor.event({ ec: 'UserInput', ea: 'ArticleSearch', el: 'ArticleFound' });
+  if (GetArticle.replyCount > 0) {
+    GetArticle.articleReplies.map( (reply) => (
+      console.log( 'replyTyp : ' + reply.id );
+  )
+    ;
 
-    //TODO:: Filter no reply && flagged
-
-    ListArticles.edges.forEach(edge => {
-      console.log(edge.node.replyCount);
-      if (edge.node.replyCount <= 0) {
-        ListArticles.edges.pop(edge);
-        console.log('poppin : ' + edge.node.text);
-      }
-    });
-    console.log('LENGTH AFTER FILTER : ' + ListArticles.edges.length);
-
-    if (ListArticles.edges.length <= 0)
-      return { data, state, event, issuedAt, userId, replies, isSkipUser };
-
-    // Track which Article is searched. And set tracking event as non-interactionHit.
-    ListArticles.edges.forEach(edge => {
-      visitor.event({
-        ec: 'Article',
-        ea: 'Search',
-        el: edge.node.id,
-        ni: true,
-      });
-    });
-
-    const edgesSortedWithSimilarity = ListArticles.edges
-      .map(edge => {
-        edge.similarity = stringSimilarity.compareTwoStrings(
-          // Remove spaces so that we count word's similarities only
-          //
-          edge.node.text.replace(/\s/g, ''),
-          event.input.replace(/\s/g, '')
-        );
-        return edge;
-      })
-      .sort((edge1, edge2) => edge2.similarity - edge1.similarity);
-
-    // Store article ids
-    data.foundArticleIds = edgesSortedWithSimilarity.map(
-      ({ node: { id } }) => id
-    );
-
-    // const hasIdenticalDocs =
-    //   edgesSortedWithSimilarity[0].similarity >= SIMILARITY_THRESHOLD;
-    //
-    // if (edgesSortedWithSimilarity.length === 1 && hasIdenticalDocs) {
-    //   // choose for user
-    //   event.input = 1;
-    //
-    //   visitor.send();
-    //   return {
-    //     data,
-    //     state: 'CHOOSING_ARTICLE',
-    //     event,
-    //     issuedAt,
-    //     userId,
-    //     replies,
-    //     isSkipUser: true,
-    //   };
-    // }
-
-    let articleId = 0;
-    edgesSortedWithSimilarity.map(({ node: { id } }) => (articleId = id));
-    console.log('ID : ' + articleId);
-
+    console.log('LIST ARTICLES  : ' + GetArticle);
     replies = [
       //TODO :: Change to prod hostname on deploy
       {
@@ -131,12 +64,13 @@ export default async function queryCommand(params) {
         text:
           i18n.__(`cofactFoundThis`) +
           ' http://localhost:3000/article/' +
-          articleId,
+          inputArticleId,
       },
       // templateMessage,
     ];
-  }
 
-  visitor.send();
-  return { data, state, event, issuedAt, userId, replies, isSkipUser };
+    visitor.send();
+    return { data, state, event, issuedAt, userId, replies, isSkipUser };
+  }
+  return null;
 }
