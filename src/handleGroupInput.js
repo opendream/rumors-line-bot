@@ -33,12 +33,9 @@ export default async function handleGroupInput(
     throw new Error('input undefined');
   }
 
-  if (event.input.length > 6 && event.input.startsWith('/query')) {
+  if (event.input.length > 6) {
     state = 'QUERY_COMMAND';
-  } else {
-    return;
   }
-
   let params = {
     data,
     state,
@@ -55,31 +52,7 @@ export default async function handleGroupInput(
     params.isSkipUser = false;
     switch (params.state) {
       case 'CHOOSING_ARTICLE': {
-        console.log("CHOOSING_ARTICLE" + params);
         params = await choosingArticle(params);
-        break;
-      }
-      case 'CHOOSING_REPLY': {
-        console.log("CHOOSING_Reply" + params);
-        params = await choosingReply(params);
-        break;
-      }
-      case 'ASKING_REPLY_FEEDBACK': {
-
-        // console.log("CHOOSING_ARTICLE" + params);
-        params = await askingReplyFeedback(params);
-        break;
-      }
-      case 'ASKING_ARTICLE_SUBMISSION_REASON': {
-        params = await askingArticleSubmissionReason(params);
-        break;
-      }
-      case 'ASKING_REPLY_REQUEST_REASON': {
-        params = await askingReplyRequestReason(params);
-        break;
-      }
-      case 'ASKING_ARTICLE_SOURCE': {
-        params = await askingArticleSource(params);
         break;
       }
       case 'QUERY_COMMAND': {

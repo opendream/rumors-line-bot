@@ -299,23 +299,26 @@ const groupHandler = async (req, type, replyToken, userId, otherFields) => {
     if (type === 'postback') {
       const data = JSON.parse(otherFields.postback.data);
 
+
+      console.log("data : "+data.issuedAt + " : context : "+context.issuedAt);
+
       // When if the postback is expired,
       // i.e. If other new messages have been sent before pressing buttons,
       // Don't do anything, just ignore silently.
       //
-      if (data.issuedAt !== context.issuedAt) {
-        console.log('Previous button pressed.');
-        lineClient('/message/reply', {
-          replyToken,
-          messages: [
-            {
-              type: 'text',
-              text: i18n.__(`Sorry, can't go back to that step.`),
-            },
-          ],
-        });
-        return;
-      }
+      // if (data.issuedAt !== context.issuedAt) {
+      //   console.log('Previous button pressed.');
+      //   lineClient('/message/reply', {
+      //     replyToken,
+      //     messages: [
+      //       {
+      //         type: 'text',
+      //         text: i18n.__(`Sorry, can't go back to that step.`),
+      //       },
+      //     ],
+      //   });
+      //   return;
+      // }
 
       input = data.input;
     } else if (type === 'message') {
@@ -339,12 +342,16 @@ const groupHandler = async (req, type, replyToken, userId, otherFields) => {
         issuedAt,
         userId
       );
+      // console.log ("RESULTT :  :+ " +result.context + " : " +result.replies);
 
-      if (!result.replies) {
-        throw new Error(
-          'Returned replies is empty, please check processMessages() implementation.'
-        );
-      }
+      //
+      // console.log ("REPLIESE  ::  "+result.replies);
+      //
+      // if (!result.replies) {
+      //   throw new Error(
+      //     'Returned replies is empty, please check processMessages() implementation.'
+      //   );
+      // }
 
       // Renew "issuedAt" of the resulting context.
       result.context.issuedAt = issuedAt;
