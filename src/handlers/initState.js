@@ -109,7 +109,7 @@ export default async function initState(params) {
         .join('\n\n'),
       template: {
         type: 'carousel',
-        columns: edgesSortedWithSimilarity
+        columns: ListArticles.edges
           .map(({ node: { title, text }, similarity }, idx) => ({
             // text: `[${i18n.__("similarity")}:${(similarity * 100).toFixed(2) + '%'}] \n ${ellipsis(text, 80, '')}`,
             text: `${ellipsis(title || text, 110, '...')}`,
