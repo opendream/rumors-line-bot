@@ -22,12 +22,9 @@ export default async function queryCommand(params) {
   // Store user input into context
   data.searchedText = event.input;
 
-  console.log('SEARCHED TEXT : ' + data.searchedText);
-
   let inputArticleId = getArticleId(event.input);
-  console.log('input Id : ' + inputArticleId);
-  // Search for articles
 
+  // Search for articles
   const {
     data: { GetArticle },
   } = await gql`
@@ -48,22 +45,22 @@ export default async function queryCommand(params) {
     text: inputArticleId,
   });
 
-  console.log('Get :  ' + GetArticle);
-
   if (GetArticle.replyCount > 0) {
-    GetArticle.articleReplies.map( (reply) => (
-      console.log( 'replyTyp : ' + reply.id );
-  )
-    ;
+    for (let i = 0; i < GetArticle.articleReplies.length; i++) {
+      if (
+        GetArticle.articleReplies[i].reply.type === 'NOT_ARTICLE' ||
+        GetArticle.articleReplies[i].reply.type === 'OPINIONATED'
+      )
+        return { data, state, event, issuedAt, userId, replies, isSkipUser };
+    }
 
-    console.log('LIST ARTICLES  : ' + GetArticle);
     replies = [
       //TODO :: Change to prod hostname on deploy
       {
         type: 'text',
         text:
           i18n.__(`cofactFoundThis`) +
-          ' http://localhost:3000/article/' +
+          'http://localhost:3000/article/' +
           inputArticleId,
       },
       // templateMessage,
@@ -72,5 +69,4 @@ export default async function queryCommand(params) {
     visitor.send();
     return { data, state, event, issuedAt, userId, replies, isSkipUser };
   }
-  return null;
 }
