@@ -45,6 +45,10 @@ export default async function queryCommand(params) {
     text: inputArticleId,
   });
 
+  if (GetArticle == null) {
+    return { data, state, event, issuedAt, userId, replies, isSkipUser };
+  }
+
   if (GetArticle.replyCount > 0) {
     for (let i = 0; i < GetArticle.articleReplies.length; i++) {
       if (
