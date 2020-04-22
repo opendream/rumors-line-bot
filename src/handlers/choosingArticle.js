@@ -37,8 +37,8 @@ function reorderArticleReplies(articleReplies) {
 
 // https://developers.line.me/en/docs/messaging-api/reference/#template-messages
 function createAltText(articleReplies) {
-  const eachLimit = 400 / articleReplies.length - 5;
-  return articleReplies
+  const eachLimit = 400 / articleReplies.slice(0, 10).length - 5;
+  let alt = articleReplies
     .slice(0, 10)
     .map(({ reply, positiveFeedbackCount, negativeFeedbackCount }, idx) => {
       const prefix = `${i18n.__("Read please pass")} ${idx + 1}> ${createTypeWords(
@@ -48,6 +48,8 @@ function createAltText(articleReplies) {
       return `${prefix}\n${content}`;
     })
     .join('\n\n');
+
+  return ellipsis(alt, 1000);
 }
 
 export default async function choosingArticle(params) {
