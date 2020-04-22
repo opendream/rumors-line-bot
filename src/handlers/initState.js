@@ -71,7 +71,7 @@ export default async function initState(params) {
         );
         return edge;
       })
-      .sort((edge1, edge2) => edge2.similarity - edge1.similarity);
+      // .sort((edge1, edge2) => edge2.similarity - edge1.similarity);
 
     // Store article ids
     data.foundArticleIds = edgesSortedWithSimilarity.map(
@@ -109,7 +109,7 @@ export default async function initState(params) {
         .join('\n\n'),
       template: {
         type: 'carousel',
-        columns: ListArticles.edges
+        columns: edgesSortedWithSimilarity
           .map(({ node: { title, text }, similarity }, idx) => ({
             // text: `[${i18n.__("similarity")}:${(similarity * 100).toFixed(2) + '%'}] \n ${ellipsis(text, 80, '')}`,
             text: `${ellipsis(title || text, 110, '...')}`,
