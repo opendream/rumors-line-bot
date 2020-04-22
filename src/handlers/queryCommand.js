@@ -64,7 +64,7 @@ export default async function queryCommand(params) {
         type: 'text',
         text:
           i18n.__(`cofactFoundThis`) +
-          'http://localhost:3000/article/' +
+          'https://cofact.org/article/' +
           inputArticleId,
       },
       // templateMessage,
