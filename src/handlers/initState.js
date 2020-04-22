@@ -28,7 +28,7 @@ export default async function initState(params) {
   } = await gql`
     query($text: String!) {
       ListArticles(
-        filter: { moreLikeThis: { like: $text } }
+        filter: { moreLikeThis: { like: $text, minimumShouldMatch: "0" } }
         orderBy: [{ _score: DESC }]
         first: 4
       ) {
