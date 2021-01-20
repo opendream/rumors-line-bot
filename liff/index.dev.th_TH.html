@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>ส่งข้อความถึง Cofacts</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      flex-flow: column;
+      padding: 16px;
+      margin: 0;
+      min-height: 100vh;
+    }
+    .form {
+      flex: 1;
+      display: flex;
+      flex-flow: column;
+    }
+    .disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .reason {
+      margin: 8px 0;
+      border: 1px solid;
+      width: 100%;
+      flex: 1;
+    }
+    #prompt {
+      margin: 0 0 8px;
+    }
+    #reason-label {
+      color: firebrick;
+      font-weight: bold;
+    }
+    .submit {
+      height: 44px;
+      width: 100%;
+      border: 1px solid;
+      background: yellow;
+    }
+    #errors {
+      color: tomato;
+      border: 1px currentColor solid;
+      padding: 4px;
+      margin: 0 0 8px;
+    }
+    #errors:empty {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <aside id="errors"></aside>
+
+  <form class="form" id="form">
+    <p id="prompt"></p>
+    <label for="reason" id="reason-label"></label>
+    <textarea class="reason" name="reason" placeholder="กรุณาใส่ข้อความ"></textarea>
+    <div class="buttons">
+      <button class="submit" type="submit" id="submit-button">ยืนยันการส่ง</button>
+    </div>
+  </form>
+  <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+  <script>
+    (function(){
+      // Initialize
+      const searchParams = (new URL(location.href)).searchParams;
+      const text = searchParams.get('text');
+      const state = searchParams.get('state');
+      const prefix = searchParams.get('prefix');
+      const issuedAt = searchParams.get('issuedAt');
+
+      // Insert prompt
+      const $prompt = document.querySelector('#prompt');
+      const $reasonLabel = document.querySelector('#reason-label');
+      const $textarea = document.querySelector('.reason');
+      switch(state){
+        case 'ASKING_ARTICLE_SUBMISSION_REASON':
+          $prompt.innerText = `คุณกำลังจะส่ง "${text}" ไปยังฐานข้อมูลสาธารณะ โปรดแจ้งเบาะแสให้แก่บรรณาธิการเพื่อช่วยในการตรวจสอบ:`;
+          $reasonLabel.innerText = 'ทำไมคุณถึงคิดว่านี่เป็นข่าวจริงหรือลวง?';
+          $textarea.placeholder = 'ตัวอย่างเช่น: ฉันใช้คำว่า ... เพื่อค้นหาบน Facebook และพบว่า ... / ฉันพบข้อมูลที่แตกต่างกันกับในเว็บไซต์ทางการ ... ดังนี้ ...'
+          break;
+        case 'ASKING_REPLY_REQUEST_REASON':
+          $prompt.innerText = `บางคนมีคำถามเกี่ยวกับ "${text}" คล้ายกับคุณ โปรดแจ้งเบาะแสให้แก่บรรณาธิการเพื่อช่วยในการตรวจสอบ:`;
+          $reasonLabel.innerText = 'ทำไมคุณถึงคิดว่านี่เป็นข่าวจริงหรือลวง';
+          $textarea.placeholder = 'ตัวอย่างเช่น: ฉันใช้คำว่า ... เพื่อค้นหาบน Facebook และพบว่า ... / ฉันพบข้อมูลที่แตกต่างกันกับในเว็บไซต์ทางการ ... ดังนี้ ...'
+          break;
+        case 'ASKING_REPLY_FEEDBACK':
+          $prompt.innerText = `น่าเสียดายที่คุณรู้สึกว่าความเห็น "${text}" นี้ไม่ได้ช่วยอะไรเท่าไร`;
+          $reasonLabel.innerText = 'ช่วยบอกหน่อยว่าควาทเห็นของข้อความนี้ ไม่เป็นประโยชน์ เพราะอะไร?'
+          $textarea.placeholder = 'ตัวอย่างเช่น: ไม่มีแหล่งที่มา / แหล่งที่มาไม่น่าเชื่อถือ / เป็นความคิดเห็นส่วนตัว / ไม่ตรงกับสิ่งที่ฉันรู้มา'
+          break;
+        default:
+          $prompt.innerText = 'กรุณาให้เหตุผล';
+          break;
+      }
+
+      const SUFFICIENT_REASON_LENGTH = 40;
+      const $submitButton = document.querySelector('#submit-button');
+      $textarea.addEventListener('input', e => {
+        e.preventDefault();
+        const text = e.target.value;
+        if (text.length < SUFFICIENT_REASON_LENGTH) {
+          $submitButton.style.backgroundColor = '';
+        } else {
+          $submitButton.style.backgroundColor = 'greenyellow';
+        }
+      })
+
+      const $form = document.querySelector('#form');
+      const lengthenHint = `
+คุณสามารถลอง:
+1. อธิบายความคิดเพิ่มเติม
+2. ลอง Google เพื่อตรวจสอบ
+3. คัดลอกข้อความแบบเต็มและวางลงในช่องค้นหาของ Facebook`
+      $form.addEventListener('submit', e => {
+        e.preventDefault();
+        const reason = e.target.reason.value;
+
+        if(state === 'ASKING_ARTICLE_SUBMISSION_REASON' ||
+           state === 'ASKING_REPLY_REQUEST_REASON') {
+          if(reason.length < SUFFICIENT_REASON_LENGTH) {
+            if(!confirm(`
+ข้อมูลที่ส่งให้กับบรรณาธิการ จะช่วยทำให้การตอบกลับทำได้เร็วขึ้น
+
+${lengthenHint}
+หากต้องการเพิ่มหรือแก้ไขเหตุผล โปรดคลิก "ยกเลิก" แต่ถ้าแน่ใจแล้วว่าจะส่งข้อความตอนนี้ โปรดคลิก "ตกลง"
+            `)) {
+              return;
+            }
+          } else if (reason === text) {
+            alert(`
+เหตุผลที่คุณให้ไม่ควรเหมือนกับข้อความต้นฉบับ
+
+${lengthenHint}
+`);
+            return;
+          }
+        }
+
+        liff.sendMessages([
+          { type: 'text', text: `${searchParams.get('prefix')}${reason}` },
+        ]).then(() => {
+          liff.closeWindow();
+        }).catch(handleError);
+      });
+
+      liff.init(({context: {userId}}) => {
+        fetch(`https://line-bot.cofact.org/context/${userId}`).then(resp => resp.json()).then(data => {
+          if(!data || data.state !== state || data.issuedAt.toString() !== issuedAt ) {
+            alert('เนื่องจากคุณได้ส่งข้อความใหม่ไปแล้ว ปุ่มเก่านี้จึงใช้ไม่ได้อีกต่อไป!');
+            liff.closeWindow();
+          }
+        }).catch(alert)
+      }, handleError);
+
+      function handleError(err) {
+        document.querySelector('#errors').textContent = err.toString();
+      }
+    }());
+  </script>
+</body>
+</html>
