@@ -151,7 +151,7 @@ ${lengthenHint}
       });
 
       liff.init(({context: {userId}}) => {
-        fetch(`https://line-bot.cofact.org/context/${userId}`).then(resp => resp.json()).then(data => {
+        fetch(`https://dev.line-bot.cofact.org/context/${userId}`).then(resp => resp.json()).then(data => {
           if(!data || data.state !== state || data.issuedAt.toString() !== issuedAt ) {
             alert('เนื่องจากคุณได้ส่งข้อความใหม่ไปแล้ว ปุ่มเก่านี้จึงใช้ไม่ได้อีกต่อไป!');
             liff.closeWindow();
