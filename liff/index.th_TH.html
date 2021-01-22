@@ -79,19 +79,29 @@
       const $prompt = document.querySelector('#prompt');
       const $reasonLabel = document.querySelector('#reason-label');
       const $textarea = document.querySelector('.reason');
+
+      const renderText = ''
+      if (event.input.startsWith('$image__')) {
+        renderText = 'รูปที่คุณสงสัย'
+      } else if (event.input.startsWith('$video__')) {
+        renderText = 'วิดีโอที่คุณสงสัย'
+      } else {
+        renderText = event.input
+      }
+
       switch(state){
         case 'ASKING_ARTICLE_SUBMISSION_REASON':
-          $prompt.innerText = `คุณกำลังจะส่ง "${text}" ไปยังฐานข้อมูลสาธารณะ โปรดแจ้งเบาะแสให้แก่บรรณาธิการเพื่อช่วยในการตรวจสอบ:`;
+          $prompt.innerText = `คุณกำลังจะส่ง "${renderText}" ไปยังฐานข้อมูลสาธารณะ โปรดแจ้งเบาะแสให้แก่บรรณาธิการเพื่อช่วยในการตรวจสอบ:`;
           $reasonLabel.innerText = 'ทำไมคุณถึงคิดว่านี่เป็นข่าวจริงหรือลวง?';
           $textarea.placeholder = 'ตัวอย่างเช่น: ฉันใช้คำว่า ... เพื่อค้นหาบน Facebook และพบว่า ... / ฉันพบข้อมูลที่แตกต่างกันกับในเว็บไซต์ทางการ ... ดังนี้ ...'
           break;
         case 'ASKING_REPLY_REQUEST_REASON':
-          $prompt.innerText = `บางคนมีคำถามเกี่ยวกับ "${text}" คล้ายกับคุณ โปรดแจ้งเบาะแสให้แก่บรรณาธิการเพื่อช่วยในการตรวจสอบ:`;
+          $prompt.innerText = `บางคนมีคำถามเกี่ยวกับ "${renderText}" คล้ายกับคุณ โปรดแจ้งเบาะแสให้แก่บรรณาธิการเพื่อช่วยในการตรวจสอบ:`;
           $reasonLabel.innerText = 'ทำไมคุณถึงคิดว่านี่เป็นข่าวจริงหรือลวง';
           $textarea.placeholder = 'ตัวอย่างเช่น: ฉันใช้คำว่า ... เพื่อค้นหาบน Facebook และพบว่า ... / ฉันพบข้อมูลที่แตกต่างกันกับในเว็บไซต์ทางการ ... ดังนี้ ...'
           break;
         case 'ASKING_REPLY_FEEDBACK':
-          $prompt.innerText = `น่าเสียดายที่คุณรู้สึกว่าความเห็น "${text}" นี้ไม่ได้ช่วยอะไรเท่าไร`;
+          $prompt.innerText = `น่าเสียดายที่คุณรู้สึกว่าความเห็นที่มีให้กับ "${renderText}" นี้ไม่ได้ช่วยอะไรเท่าไร`;
           $reasonLabel.innerText = 'ช่วยบอกหน่อยว่าควาทเห็นของข้อความนี้ ไม่เป็นประโยชน์ เพราะอะไร?'
           $textarea.placeholder = 'ตัวอย่างเช่น: ไม่มีแหล่งที่มา / แหล่งที่มาไม่น่าเชื่อถือ / เป็นความคิดเห็นส่วนตัว / ไม่ตรงกับสิ่งที่ฉันรู้มา'
           break;
