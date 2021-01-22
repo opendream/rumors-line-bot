@@ -2,6 +2,7 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import cors from '@koa/cors';
 
+
 import rollbar from './rollbar';
 import { version } from '../package.json';
 
@@ -9,7 +10,7 @@ import redis from './redisClient';
 import checkSignatureAndParse from './checkSignatureAndParse';
 import lineClient from './lineClient';
 import handleInput from './handleInput';
-import { uploadImageFile } from './fileUpload';
+import { uploadImageFile, uploadVideoFile } from './fileUpload';
 import ga from './ga';
 import i18n from './i18n';
 import handleGroupInput from './handleGroupInput';
@@ -86,6 +87,8 @@ const singleUserHandler = async (
   //
   if (
     (type === 'message' && otherFields.message.type === 'text') ||
+    (type === 'message' && otherFields.message.type === 'image') ||
+    (type === 'message' && otherFields.message.type === 'video') ||
     type === 'postback'
   ) {
     const context = (await redis.get(userId)) || {};
@@ -115,7 +118,21 @@ const singleUserHandler = async (
 
       input = data.input;
     } else if (type === 'message') {
-      input = otherFields.message.text;
+
+      if (otherFields.message.type === 'text') {
+        input = otherFields.message.text;
+      } else if (otherFields.message.type === 'image') {
+
+        const { hash, fileData } = await uploadImageFile(otherFields.message.id)
+        console.log('uploadImageFile', hash, fileData)
+
+        input = `\$image__${hash}__${fileData.id}`
+      } else if (otherFields.message.type === 'video') {
+
+        const { hash, fileData } = await uploadVideoFile(otherFields.message.id)
+
+        input = `\$video__${hash}__${fileData.id}`
+      }
     }
 
     // Debugging: type 'RESET' to reset user's context and start all over.
@@ -185,6 +202,8 @@ const singleUserHandler = async (
         el: otherFields.message.type,
       })
       .send();
+
+    // console.log('otherFields', otherFields)
 
     uploadImageFile(otherFields.message.id);
   } else if (type === 'message' && otherFields.message.type === 'video') {

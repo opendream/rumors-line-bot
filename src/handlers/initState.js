@@ -45,7 +45,15 @@ export default async function initState(params) {
     text: event.input,
   });
 
-  const articleSummary = ellipsis(event.input, 12);
+  let articleSummary = '';
+  
+  if (event.input.startsWith('$image__')) {
+    articleSummary = 'ตามรูปที่คุณส่งเข้ามา'
+  } else if (event.input.startsWith('$video__')) {
+    articleSummary = 'ตามวิดีโอที่คุณส่งเข้ามา'
+  } else {
+    articleSummary = ellipsis(event.input, 12)
+  }
 
   if (ListArticles.edges.length) {
     // Track if find similar Articles in DB.

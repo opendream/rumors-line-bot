@@ -60,12 +60,18 @@ export default async function askingReplyFeedback(params) {
     `({
       replyId: data.selectedReplyId,
     });
+    
+    let selectedArticleText = ''
+    if (data.selectedArticleText.startsWith('$image__')) {
+      selectedArticleText = '[เป็นรูป]'
+    } else if (data.selectedArticleText.startsWith('$video__')) {
+      selectedArticleText = '[เป็นวิดีโอ]'
+    } else {
+      selectedArticleText = ellipsis(data.selectedArticleText, 8, '...')
+    }
 
     const articleUrl = getArticleURL(data.selectedArticleId);
-    let sharedText = `${i18n.__("Someone on the internet said")} "${ellipsis(
-      data.selectedArticleText,
-      8, '...' // TODO: increase this to 40 - 50 
-    )}" ${createTypeWords(
+    let sharedText = `${i18n.__("Someone on the internet said")} "${selectedArticleText}" ${createTypeWords(
       GetReply.type
     )}${i18n.__("Oh!")} \n\n${i18n.__("Please go to %s to see the responses, reasons, and related sources of the folks!", articleUrl)}`;
     
