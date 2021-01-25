@@ -99,7 +99,7 @@ export async function uploadVideoFile(messageId) {
           resolve(data)
         }
       })
-    }, 500)
+    }, 1000)
 
   });
 
